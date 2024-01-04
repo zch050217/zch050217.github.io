@@ -1,0 +1,3 @@
+var posts=["2023/12/27/A1ic3/","2024/01/04/A1ic3脱单啦/","2023/10/10/Begin-Of-PHP/","2023/12/08/FSCTF-2023-巴巴托斯/","2023/11/24/GXYCTF-2019-BabyUpload-源代码分析/","2023/11/18/GeekChallenge-ezhttp/","2023/10/09/RCE/","2023/11/02/RCE总结/","2023/10/10/hexo/","2023/12/22/hikhuu/","2023/12/06/十大经典排序算法/","2023/11/21/ZJNU-OJ题库部分答案240103v1/","2024/01/03/新年快乐/"];function toRandomPost(){
+    pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);
+  };
