@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>文件上传 | C3ngH's B10g</title><meta name="author" content="C3ngH"><meta name="copyright" content="C3ngH"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="任意文件上传漏洞的概念和危害   概念 任意文件上传漏洞（Arbitrary File Upload Vulnerability）是一种常见的网络安全漏洞，通常存在于Web应用程序中。这种漏洞允许攻击者将恶意文件上传到Web服务器，从而可能导致服务器受到攻击或被入侵。 攻击者利用任意文件上传漏洞的步骤通常如下：  找到漏洞点：攻击者首先需要找到目标网站或Web应用程序中的文件上传功能，并确定是否存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件上传">
+<meta property="og:url" content="http://c3ngh.top/2024/02/14/FileUpload/index.html">
+<meta property="og:site_name" content="C3ngH&#39;s B10g">
+<meta property="og:description" content="任意文件上传漏洞的概念和危害   概念 任意文件上传漏洞（Arbitrary File Upload Vulnerability）是一种常见的网络安全漏洞，通常存在于Web应用程序中。这种漏洞允许攻击者将恶意文件上传到Web服务器，从而可能导致服务器受到攻击或被入侵。 攻击者利用任意文件上传漏洞的步骤通常如下：  找到漏洞点：攻击者首先需要找到目标网站或Web应用程序中的文件上传功能，并确定是否存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg">
+<meta property="article:published_time" content="2024-02-14T10:21:56.000Z">
+<meta property="article:modified_time" content="2024-07-14T02:46:10.410Z">
+<meta property="article:author" content="C3ngH">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg"><link rel="shortcut icon" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/favicon.ico"><link rel="canonical" href="http://c3ngh.top/2024/02/14/FileUpload/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '文件上传',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-14 10:46:10'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/BGimg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="C3ngH's B10g"><span class="site-name">C3ngH's B10g</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">文件上传</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-14T10:21:56.000Z" title="发表于 2024-02-14 18:21:56">2024-02-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-14T02:46:10.410Z" title="更新于 2024-07-14 10:46:10">2024-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/">CTF</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="文件上传"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="任意文件上传漏洞的概念和危害">任意文件上传漏洞的概念和危害</h2>
+<ul>
+<li>
+<h3 id="概念">概念</h3>
+<p>任意文件上传漏洞（Arbitrary File Upload Vulnerability）是一种常见的网络安全漏洞，通常存在于Web应用程序中。这种漏洞允许攻击者将恶意文件上传到Web服务器，从而可能导致服务器受到攻击或被入侵。</p>
+<p>攻击者利用任意文件上传漏洞的步骤通常如下：</p>
+<ol>
+<li><strong>找到漏洞点</strong>：攻击者首先需要找到目标网站或Web应用程序中的文件上传功能，并确定是否存在安全漏洞。</li>
+<li><strong>上传恶意文件</strong>：一旦发现存在漏洞，攻击者可以利用该漏洞来上传包含恶意代码的文件。这些文件可能是恶意脚本、后门程序、木马等，用于进一步攻击目标系统或获取敏感信息。</li>
+<li><strong>执行恶意代码</strong>：上传成功后，攻击者可以通过触发上传的文件来执行其中包含的恶意代码。这可能会导致服务器被入侵、敏感数据被窃取、系统被控制等危险后果。</li>
+</ol>
+</li>
+<li>
+<h3 id="危害">危害</h3>
+<ol>
+<li><strong>执行恶意代码</strong>：攻击者可以上传包含恶意代码的文件，如Webshell（Web后门），以获取对目标服务器的完全控制。一旦上传成功并执行，攻击者就可以执行任意系统命令、访问敏感数据或者利用服务器作为跳板进一步攻击其他系统。</li>
+<li><strong>篡改网站内容</strong>：攻击者可以上传包含恶意内容的文件来篡改网站的页面，显示虚假信息、恶意链接或者欺骗用户输入敏感信息。</li>
+<li><strong>敏感信息泄露</strong>：攻击者可以上传包含敏感信息的文件，如数据库备份文件、配置文件等，导致敏感信息泄露。</li>
+<li><strong>服务拒绝</strong>：攻击者可以上传大型文件或者大量文件，导致服务器资源耗尽，服务拒绝给合法用户提供服务。</li>
+<li><strong>绕过权限控制</strong>：攻击者可以上传包含用户权限或者访问控制规则的文件，绕过应用程序的权限控制机制，获取未经授权的权限。</li>
+<li><strong>劫持用户会话</strong>：通过上传包含恶意脚本的文件，攻击者可以获取用户的会话标识，从而劫持用户的会话并进行进一步攻击或欺骗。</li>
+</ol>
+</li>
+</ul>
+<h2 id="任意文件上传漏洞的修复方式">任意文件上传漏洞的修复方式</h2>
+<ol>
+<li><strong>输入验证和过滤</strong>：在服务器端对用户上传的文件进行输入验证和过滤，确保只允许上传可信文件类型，并拒绝上传具有恶意或非法文件扩展名的文件。可以使用白名单和黑名单机制来限制上传文件的类型。</li>
+<li><strong>文件类型检查</strong>：对上传的文件进行严格的文件类型检查，可以通过检查文件的魔术数字（magic number）、文件扩展名等方式来验证文件的类型是否符合预期。</li>
+<li><strong>文件内容检查</strong>：对上传的文件内容进行检查，确保不包含恶意代码或恶意内容。可以使用反病毒软件或文件内容检测工具来扫描上传的文件，检测其中是否包含恶意代码。</li>
+<li><strong>文件权限控制</strong>：确保上传的文件存储在安全的目录中，并设置适当的文件权限，以防止恶意用户通过上传恶意文件获取对服务器的访问权限。</li>
+<li><strong>隔离上传文件</strong>：将用户上传的文件与应用程序代码和其他系统文件隔离开来，确保上传的文件不会影响到应用程序的正常运行或系统的安全性。</li>
+<li><strong>文件重命名</strong>：在保存上传文件时，将文件重命名为随机生成的唯一文件名，以防止恶意用户上传同名文件覆盖系统文件或执行攻击。</li>
+<li><strong>沙箱动态监测</strong>：使用沙箱技术，将上传的文件在受控环境中进行动态监测和分析。通过模拟执行环境，监测文件是否包含恶意代码、恶意行为或者不良影响，并且在检测到可疑行为时采取相应的防御措施，如拒绝文件上传或者将文件标记为不安全。</li>
+<li><strong>安全编码实践</strong>：开发者应该遵循安全编码实践，如最小特权原则、避免使用不安全的函数和库、定期更新和修补软件等，以降低漏洞被利用的风险。</li>
+</ol>
+<h2 id="图片马制作方式">图片马制作方式</h2>
+<ol>
+<li>
+<p>使用文本方式打开，在末尾粘贴一句话木马</p>
+</li>
+<li>
+<p>在cmd中输入命令<code>copy 1.jpg/b+2.php 3.jpg</code></p>
+<ul>
+<li>
+<p>/b是二进制形式打开</p>
+</li>
+<li>
+<p>/a是ascii方式打开</p>
+</li>
+</ul>
+</li>
+<li>
+<p>16进制打开图片在末尾添加一句话木马</p>
+</li>
+<li>
+<p>Photoshop打开</p>
+</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>单纯的图片马并不能直接和蚁剑连接，因为该文件依然是以image格式进行解析，</li>
+<li>只有利用<strong>文件包含漏洞</strong>（在代码中引入其他文件作为php文件执行时，未对文件进行严格过滤，导致用户指定任意文件，都作为php文件解析执行）才能成功利用该木马</li>
+</ul>
+<h2 id="upload-labs题解">upload-labs题解</h2>
+<p>upload-labs靶机包含漏洞类型分类：</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/mind-map.png" alt="mind-map"></p>
+<p>如何判断上传漏洞类型？</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/sum_up.png" alt="sum_up"></p>
+<ul>
+<li>
+<p>Pass-01</p>
+<p>前端校验文件名是否安全。绕过方法：禁用javascript，或者上传白名单后缀文件，burp捉包修改为对应服务器能够解释的文件后缀。</p>
+</li>
+<li>
+<p>Pass-02</p>
+<p>后端校验文件类型是否为image/jpeg、image/png、image/gif。绕过方法：修改Content-Type: application/octet-stream为Content-Type: image/jpeg即可。</p>
+</li>
+<li>
+<p>Pass-03</p>
+<p>上传php其他后缀名</p>
+</li>
+<li>
+<p>Pass-04</p>
+<p>上传.htaccess文件</p>
+</li>
+<li>
+<p>Pass-05</p>
+<p>文件后缀大小写绕过</p>
+</li>
+<li>
+<p>Pass-06</p>
+<p>空格绕过：利用Windows对“文件名中空格会被作为空处理”的特性，程序检测后缀名.php ，空格会自动删除。</p>
+</li>
+<li>
+<p>Pass-07</p>
+<p>.号绕过：</p>
+</li>
+<li>
+<p>Pass-08</p>
+<p>::$DATA绕过（特殊符合不能成功新建）文件名+“::$DATA”会把::$DATA之后的数据当成文件流处理，不会检测后缀名，且保持::$DATA之前的文件名。如：“phpinfo.php::$DATA”  windows会自动处理末尾的::$DATA 变成“phpinfo.php” 。</p>
+</li>
+<li>
+<p>Pass-09</p>
+<p>.空.绕过</p>
+</li>
+<li>
+<p>Pass-10</p>
+<p>双写绕过</p>
+</li>
+<li>
+<p>Pass-11</p>
+<p>白名单限制，$_GET[‘save_path’]路径可控。GET：通过%00截断，上传文件</p>
+</li>
+<li>
+<p>Pass-12</p>
+<p>白名单限制，$_POST[‘save_path’]路径可控。POST：通过HEX改值为php+00截断，上传文件</p>
+</li>
+<li>
+<p>Pass-13</p>
+<p>文件包含，上传图片马</p>
+</li>
+<li>
+<p>Pass-14</p>
+<p>文件包含，检查图片的长宽高。通过copy 1.jpg/b + 2.php/a shell.jpg，新建图片马</p>
+</li>
+<li>
+<p>Pass-15</p>
+<p>文件包含，检查图片的长宽高。通过copy 1.jpg/b + 2.php/a shell.jpg，新建图片马</p>
+</li>
+<li>
+<p>Pass-16</p>
+<p>文件包含，二次渲染。上传大图片马，使其在服务器中二次渲染，获取下载并对比二次渲染后的图片马特征。挑选未被渲染的地方，插入payload。</p>
+</li>
+<li>
+<p>Pass-17</p>
+<p>条件竞争，<code>&lt;?php fputs(fopen('shell.php','w'),'&lt;?php eval($_POST[x]);&gt;');?&gt;</code></p>
+</li>
+<li>
+<p>Pass-18</p>
+<p>Apache解析漏洞+条件竞争</p>
+</li>
+<li>
+<p>Pass-19</p>
+<p>文件名可控，黑名单绕过，使用shell.php.绕过黑名单上传</p>
+</li>
+<li>
+<p>Pass-20</p>
+<p>白名单限制，检查MIME和后缀名。</p>
+</li>
+<li>
+<p>Pass-21</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://c3ngh.top">C3ngH</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://c3ngh.top/2024/02/14/FileUpload/">http://c3ngh.top/2024/02/14/FileUpload/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://c3ngh.top" target="_blank">C3ngH's B10g</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/14/XXEInjection/" title="XXE漏洞"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">XXE漏洞</div></div></a></div><div class="next-post pull-right"><a href="/2024/02/14/FileInclude/" title="文件包含"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">文件包含</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/02/02/CrossSiteScripting/" title="XSS注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-02</div><div class="title">XSS注入</div></div></a></div><div><a href="/2024/02/14/FileInclude/" title="文件包含"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-14</div><div class="title">文件包含</div></div></a></div><div><a href="/2024/05/25/RCE/" title="RCE（重构版）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-25</div><div class="title">RCE（重构版）</div></div></a></div><div><a href="/2024/03/18/PHPunserialize/" title="PHP反序列化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-18</div><div class="title">PHP反序列化</div></div></a></div><div><a href="/2024/01/29/SQLinjection/" title="SQL注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-29</div><div class="title">SQL注入</div></div></a></div><div><a href="/2024/02/04/XSSWriteUp/" title="XSSWriteUp"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-04</div><div class="title">XSSWriteUp</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">C3ngH</div><div class="author-info__description">允许一切如其所是</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zch050217"><i class="fab fa-github"></i><span>关注作者</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/zch050217" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zch050217@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.</span> <span class="toc-text">任意文件上传漏洞的概念和危害</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.2.</span> <span class="toc-text">危害</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E7%9A%84%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">任意文件上传漏洞的修复方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E9%A9%AC%E5%88%B6%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">图片马制作方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#upload-labs%E9%A2%98%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">upload-labs题解</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/14/SomeWriteUp/" title="一些WriteUp">一些WriteUp</a><time datetime="2024-07-14T01:59:30.000Z" title="发表于 2024-07-14 09:59:30">2024-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/RCE/" title="RCE（重构版）">RCE（重构版）</a><time datetime="2024-05-25T03:03:50.000Z" title="发表于 2024-05-25 11:03:50">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/rkwg3/" title="广域通信网">广域通信网</a><time datetime="2024-05-25T03:00:15.000Z" title="发表于 2024-05-25 11:00:15">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/16/MiscLearn/" title="MiscLearn">MiscLearn</a><time datetime="2024-05-16T03:10:19.000Z" title="发表于 2024-05-16 11:10:19">2024-05-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/IDAuse/" title="IDA使用指南">IDA使用指南</a><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By C3ngH</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-waline-weld.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

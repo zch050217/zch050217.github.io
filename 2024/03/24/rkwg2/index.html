@@ -1,0 +1,584 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据通信基础 | C3ngH's B10g</title><meta name="author" content="C3ngH"><meta name="copyright" content="C3ngH"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="信道特性 数据通信概念   通信的目的是传递信息   通信中产生和发生信息的一端叫信源，接受信息的一端叫信宿，信源和信宿之间的通信线路称为信道。    模拟信号和数字信号    信道带宽W  模拟信道：W&#x3D;f2−f1W&#x3D;f_2-f_1W&#x3D;f2​−f1​（f2f_2f2​和f1f_1f1​分别表示信道能通过的最高&#x2F;最低频率，单位赫兹Hz） 数字信道：数字信道是离散信道，带宽为信道能够达到的最大数据传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据通信基础">
+<meta property="og:url" content="http://c3ngh.top/2024/03/24/rkwg2/index.html">
+<meta property="og:site_name" content="C3ngH&#39;s B10g">
+<meta property="og:description" content="信道特性 数据通信概念   通信的目的是传递信息   通信中产生和发生信息的一端叫信源，接受信息的一端叫信宿，信源和信宿之间的通信线路称为信道。    模拟信号和数字信号    信道带宽W  模拟信道：W&#x3D;f2−f1W&#x3D;f_2-f_1W&#x3D;f2​−f1​（f2f_2f2​和f1f_1f1​分别表示信道能通过的最高&#x2F;最低频率，单位赫兹Hz） 数字信道：数字信道是离散信道，带宽为信道能够达到的最大数据传">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg">
+<meta property="article:published_time" content="2024-03-24T14:11:05.000Z">
+<meta property="article:modified_time" content="2024-07-14T02:56:26.086Z">
+<meta property="article:author" content="C3ngH">
+<meta property="article:tag" content="软考中级">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg"><link rel="shortcut icon" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/favicon.ico"><link rel="canonical" href="http://c3ngh.top/2024/03/24/rkwg2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据通信基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-14 10:56:26'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/BGimg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="C3ngH's B10g"><span class="site-name">C3ngH's B10g</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据通信基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-24T14:11:05.000Z" title="发表于 2024-03-24 22:11:05">2024-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-14T02:56:26.086Z" title="更新于 2024-07-14 10:56:26">2024-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E5%B7%A5/">网工</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据通信基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="信道特性">信道特性</h3>
+<h4 id="数据通信概念">数据通信概念</h4>
+<ul>
+<li>
+<p>通信的目的是传递信息</p>
+</li>
+<li>
+<p>通信中产生和发生信息的一端叫<strong>信源</strong>，接受信息的一端叫<strong>信宿</strong>，信源和信宿之间的通信线路称为<strong>信道</strong>。</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324161741975.png" alt="image-20240324161741975"></p>
+</li>
+<li>
+<p>模拟信号和数字信号</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324161755018.png" alt="image-20240324161755018"></p>
+</li>
+</ul>
+<h4 id="信道带宽W">信道带宽W</h4>
+<ul>
+<li><strong>模拟信道</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><msub><mi>f</mi><mn>2</mn></msub><mo>−</mo><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">W=f_2-f_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">f_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>分别表示信道能通过的最高/最低频率，单位赫兹Hz）</li>
+<li><strong>数字信道</strong>：数字信道是离散信道，带宽为信道能够达到的最大数据传输速率，单位是bit/s</li>
+</ul>
+<h4 id="码元和码元速率">码元和码元速率</h4>
+<ul>
+<li><strong>码元</strong>：一个数字脉冲称为一个码元</li>
+<li><strong>码元速率</strong>：单位时间内信道传送的码元个数。如果码元宽度（脉冲周期）为T，则码元速率（波特率）为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>1</mn><mi mathvariant="normal">/</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">B=1/T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1/</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>，单位是波特 Baud</li>
+<li>一个码元携带信息量n（位）与码元种类数（N）的关系<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>N</mi></mrow><annotation encoding="application/x-tex">n=log_2N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>​</li>
+</ul>
+<h4 id="奈奎斯特定理">奈奎斯特定理</h4>
+<ul>
+<li>
+<p>概念：在一个理想的（没有噪声环境）信道中，若信道带宽为W，最大码元速率为：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>2</mn><mi>W</mi><mo stretchy="false">(</mo><mi>B</mi><mi>a</mi><mi>u</mi><mi>d</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">B=2W(Baud)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">u</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></p>
+</li>
+<li>
+<p><strong>极限数据速率</strong>为：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mi>B</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>N</mi><mo>=</mo><mn>2</mn><mi>W</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>N</mi></mrow><annotation encoding="application/x-tex">R=Blog_2N=2Wlog_2N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">Bl</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>​（N表示码元种类数）</p>
+</li>
+<li>
+<p>类比理解：</p>
+<ul>
+<li>
+<p>码元速率 = 每秒发送包裹个数</p>
+</li>
+<li>
+<p>数据速率 = 每秒发送包裹重量</p>
+</li>
+<li>
+<p>每秒包裹重量 = 每秒发送包裹个数 * 每个包裹重量</p>
+</li>
+<li>
+<p>数据速率 = 码元速率 * 每个码元携带信息量</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="香农定理">香农定理</h4>
+<ul>
+<li>概念：在一个<strong>噪声信道</strong>的极限数据速率和带宽之间的关系</li>
+<li>极限速率公式：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>W</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C=Wlog_2(1+S/N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></li>
+<li>分贝和信噪比关系：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>B</mi><mo>=</mo><mn>10</mn><mi>l</mi><mi>g</mi><mo stretchy="false">(</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">dB=10lg(S/N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">10</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></li>
+<li>其中W为带宽，S为信号平均功率，N为噪声平均功率，S/N为信噪比
+<ul>
+<li>dB = 10，S/N = 10</li>
+<li>dB = 30，S/N = 1000</li>
+</ul>
+</li>
+</ul>
+<h4 id="带宽-码元速率-数据速率关系梳理">带宽/码元速率/数据速率关系梳理</h4>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324163914685.png" alt="image-20240324163914685"></p>
+<h4 id="习题">习题</h4>
+<ul>
+<li>
+<p>2019年11月第11题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324164201674.png" alt="image-20240324164201674"></p>
+</li>
+<li>
+<p>2021年11月第14-15题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324164213920.png" alt="image-20240324164213920"></p>
+</li>
+<li>
+<p>2017年5月第12-13题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324164234203.png" alt="image-20240324164234203"></p>
+</li>
+<li>
+<p>2019年5月第11题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324164319134.png" alt="image-20240324164319134"></p>
+</li>
+<li>
+<p>网规2022年11月第12题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240324164333359.png" alt="image-20240324164333359"></p>
+</li>
+</ul>
+<h3 id="信道延迟">信道延迟</h3>
+<ul>
+<li>相关因素：源端与宿端距离、信道中的信号传播速率</li>
+<li>总延时 = <strong>线路延迟</strong> + <strong>发送延迟</strong></li>
+<li><strong>线路延迟</strong> = 传输距离 / 传输速度</li>
+<li><strong>发送延迟</strong> = 数据帧大小 / 速率</li>
+<li>光速为300000km/s = 300m/us</li>
+<li>电缆中传播速度一般为光速的67%，即200000km/s = 200m/us</li>
+<li>卫星信道的时延大约270ms（来回双向的延迟540ms）</li>
+</ul>
+<p>举例计算：</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408155701922.png" alt="image-20240408155701922"></p>
+<h4 id="习题-2">习题</h4>
+<ul>
+<li>
+<p>2014年5月第13题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408155953715.png" alt="image-20240408155953715"></p>
+</li>
+<li>
+<p>2018年5月第17题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408160012368.png" alt="image-20240408160012368"></p>
+</li>
+<li>
+<p>2019年5月第59题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408160035250.png" alt="image-20240408160035250"></p>
+</li>
+<li>
+<p>2921年5月第64题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408160109199.png" alt="image-20240408160109199"></p>
+</li>
+</ul>
+<h3 id="传输介质">传输介质</h3>
+<h4 id="介质分类">介质分类</h4>
+<ul>
+<li>
+<p>有线传输介质：同轴电缆、双绞线和光纤</p>
+</li>
+<li>
+<p>无线传输介质：无线电波、微波、红外线、激光</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408160845703.png" alt="image-20240408160845703"></p>
+</li>
+</ul>
+<h4 id="频谱资源划分">频谱资源划分</h4>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408160928049.png" alt="image-20240408160928049"></p>
+<h4 id="双绞线及规格">双绞线及规格</h4>
+<ul>
+<li>
+<p>概念：由多对绝缘铜导线两两相互缠绕而成的线缆</p>
+</li>
+<li>
+<p>缠绕目的：降低信号干扰的程度</p>
+</li>
+<li>
+<p>数据传输：</p>
+<ul>
+<li>
+<p>100M：用到4根，2对（1，2，3，6）</p>
+</li>
+<li>
+<p>1000M：使用8根</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408161435083.png" alt="image-20240408161435083"></p>
+</li>
+<li>
+<p>网口：RJ45水晶头</p>
+</li>
+<li>
+<p>电话口：RJ11水晶头</p>
+</li>
+</ul>
+</li>
+<li>
+<p>规格：</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408161621343.png" alt="image-20240408161621343"></p>
+<ul>
+<li>TIA/EIA：电信工业协会/电子工业协会</li>
+</ul>
+</li>
+<li>
+<p>非屏蔽双绞线和屏蔽双绞线</p>
+<ul>
+<li>非屏蔽双绞线（UTP）
+<ul>
+<li>绝缘套管中无屏蔽层</li>
+<li>价格低廉、用途广泛</li>
+<li>企业、教育</li>
+</ul>
+</li>
+<li>屏蔽双绞线（STP）
+<ul>
+<li>绝缘管套中外层由铝箔包裹，以减小辐射/干扰</li>
+<li>价格相对较高，高要求场合应用</li>
+<li>军队政府、医疗、航空航天（高精密场景）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="光纤">光纤</h4>
+<ul>
+<li>
+<p>概念：利用光在<strong>玻璃或塑料纤维</strong>中的<strong>全反射原理</strong>而达成的光传导工具</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408162331842.png" alt="image-20240408162331842"></p>
+</li>
+<li>
+<p>光在光纤中传导损耗很低，适合用作长距离的信息传递</p>
+</li>
+<li>
+<p>光纤特点：<strong>重量轻，体积小，传输远（衰减小），容量大，抗电磁干扰</strong></p>
+</li>
+<li>
+<p>光缆：由多根光纤和塑料保护套管及塑料外皮构成</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408162657178.png" alt="image-20240408162657178"></p>
+</li>
+</ul>
+<h4 id="光纤分类">光纤分类</h4>
+<ul>
+<li>
+<p>单模光纤</p>
+<ul>
+<li>当光纤的几何尺寸可以与光波长相比拟时，即纤芯的几何尺寸与光信号波长相差不大时，一般为5-10um</li>
+<li>光纤<strong>只允许一种模式在其中传播</strong>，单模光纤具有极宽的带宽，特别适用于<strong>大容量，长距离的光纤通信</strong>（贵）</li>
+</ul>
+</li>
+<li>
+<p>多模光纤</p>
+<ul>
+<li>多模光纤纤芯的几何尺寸远大于光波波长，一般为50um、62.5um；<strong>允许多种模式光信号传播</strong></li>
+<li>多模光纤仅用于<strong>较小容量、短距离的光纤传输通信</strong>（便宜）</li>
+</ul>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408163851436.png" alt="image-20240408163851436"></p>
+</li>
+<li>
+<p>对比</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164021377.png" alt="image-20240408164021377"></p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164037368.png" alt="image-20240408164037368"></p>
+</li>
+</ul>
+<h4 id="光接口和光模块">光接口和光模块</h4>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164201752.png" alt="image-20240408164201752"></p>
+<h4 id="单芯光纤与单芯光模块">单芯光纤与单芯光模块</h4>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164240171.png" alt="image-20240408164240171"></p>
+<h4 id="光纤连接器">光纤连接器</h4>
+<ul>
+<li>
+<p>光纤与光纤/光源之间的两种连接方式</p>
+<ul>
+<li>使用专用的设备将两根光纤熔接起来，主要用于光纤长度的延长</li>
+<li>使用光纤连接器，用于光纤跳线或是不同光纤连接器的转换</li>
+</ul>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164539849.png" alt="image-20240408164539849"></p>
+</li>
+</ul>
+<h4 id="跳线和尾纤">跳线和尾纤</h4>
+<ul>
+<li>
+<p>跳线</p>
+<ul>
+<li>双绞线跳线：带有水晶头的网线</li>
+<li>光纤跳线：带有连接器与保护层的光纤</li>
+</ul>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164754173.png" alt="image-20240408164754173"></p>
+</li>
+<li>
+<p>尾纤：只有一头有光纤接口</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164810952.png" alt="image-20240408164810952"></p>
+</li>
+</ul>
+<h4 id="习题-3">习题</h4>
+<ul>
+<li>
+<p>2022年5月第11题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408161144404.png" alt="image-20240408161144404"></p>
+</li>
+<li>
+<p>2018年5月第15题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408164957729.png" alt="image-20240408164957729"></p>
+</li>
+<li>
+<p>2021年5月第12题</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240408165035626.png" alt="image-20240408165035626"></p>
+</li>
+</ul>
+<h3 id="数据编码">数据编码</h3>
+<h4 id="曼彻斯特编码">曼彻斯特编码</h4>
+<ul>
+<li>曼彻斯特编码是一种双相码，在每个比特中间均有一个跳变，<strong>第一个编码自定义</strong>，常用于以太网（10Mbps）中。</li>
+</ul>
+<h4 id="差分曼彻斯特编码">差分曼彻斯特编码</h4>
+<ul>
+<li>差分曼彻斯特编码也是一种双相码，用在令牌环网中。</li>
+<li>有跳变代表 0 ，无跳变代表 1</li>
+<li><strong>不是比较形状，比较起始电平（上一个的终止与下一个的起点）</strong>，如果上一个结束时的电平是高电平，下一个开始时的电平是高电平，那么没有跳变，出</li>
+</ul>
+<h4 id="两种曼彻斯特编码的特点">两种曼彻斯特编码的特点</h4>
+<ul>
+<li>曼码和差分曼码都是典型的双相码，双相码要求每一位都有一个电平转换，<strong>一高一低，必须翻转</strong></li>
+<li>都具有<strong>自定时和检测错误</strong>的功能</li>
+<li>优点：将时钟和数据包含在信号数据流中，也称<strong>自同步码</strong></li>
+<li>编码效率低：<strong>50%</strong></li>
+<li><strong>数据速率是码元速率的一半</strong>（不要带公式）</li>
+</ul>
+<h4 id="其他编码">其他编码</h4>
+<p>to be continue</p>
+<h4 id="习题-4">习题</h4>
+<h3 id="调制技术">调制技术</h3>
+<ul>
+<li>用数字数据调制模拟信号叫做数字调制
+<ul>
+<li><strong>幅度键控（ASK）</strong>：用载波的两个不同振幅表示0和1</li>
+<li><strong>频移键控（FSK）</strong>：用载波的两个不同频率表示0和1</li>
+<li><strong>相移键控（PSK=BPSK=2PSK）</strong>：用载波的起始相位的变化表示0和1</li>
+<li><strong>正交幅度调制（QAM）</strong>：把两个幅度相同但相位差90°的模拟信号合成一个模拟信号</li>
+</ul>
+</li>
+<li>码元只取两个相位值叫2相调制（<strong>DPSK：差分相移键控</strong>），码元可取四个相位叫4相调制（QPSK），则N=2，N=4</li>
+</ul>
+<h4 id="习题-5">习题</h4>
+<h3 id="脉码调制PCM（高频考点）">脉码调制PCM（高频考点）</h3>
+<ul>
+<li>数字化技术：脉冲编码调制技术（Pulse Code Modulation）</li>
+<li>三个步骤：
+<ul>
+<li><strong>采样</strong>：按照一定的时间间隔对模拟信号进行取样，把模拟信号的当前值作为样本
+<ul>
+<li><strong>奈奎斯特采样定理</strong>：如果模拟信号的最高频率为fmax，若以大于等于2fmax的采样频率对其进行采样，则采样得到的离散信号序列就能完整的恢复出原始信号</li>
+</ul>
+</li>
+<li><strong>量化</strong>：把取样后得到的样本由连续值转换为离散值，离散值的个数决定了量化的精度</li>
+<li><strong>编码</strong>：把量化后的样本值变成相应的二进制代码</li>
+</ul>
+</li>
+</ul>
+<h4 id="习题-6">习题</h4>
+<h3 id="通信和交换方式">通信和交换方式</h3>
+<h4 id="数据通信方式">数据通信方式</h4>
+<h5 id="按通信方向分">按通信方向分</h5>
+<ul>
+<li><strong>单工通信</strong>：信息只能在一个方向上传送，发送方不能接收，接收方不能发送（电视/广播）</li>
+<li><strong>半双工通信</strong>：通信的双方可以交替发送和接收信息，但不能同时接收或发送（对讲机/Wi-Fi/<strong>Hub</strong>（集线器））</li>
+<li><strong>全双工通信</strong>：通信双方可同时进行双向的信息传送（电话/<strong>交换机</strong>）</li>
+</ul>
+<h5 id="按同步方式分">按同步方式分</h5>
+<ul>
+<li><strong>异步传输</strong>：把各个字符分开传输，在字符之间<strong>插入同步信息</strong>，典型的是插入起始位和停止位，HDLC是典型的异步传输，HDLC的起始标志位和结束标志位都是<strong>01111110</strong>。
+<ul>
+<li>异步传输的优点是实现简单，但引入了起止位，会影响传输效率，导致速率不会太高</li>
+</ul>
+</li>
+<li><strong>同步传输</strong>：发送方在传送数据之前，先发送一串同步字符SYNC，接收方检测到2个以上SYNC字符就确认已经进入同步状态，开始准备接收数据。<strong>同步传输效率更搞，在短距离高速数据传输中，大量采用同步传输方式</strong></li>
+</ul>
+<h4 id="数据交换方式">数据交换方式</h4>
+<ul>
+<li><strong>电路交换</strong>：电路建立，数据传输，电路拆除，在数据传输之前需建立一条物理线路且线路独占（早期电话）</li>
+<li><strong>报文交换</strong>：报文从发送方传送到接收方采用存储转发的方式。报文中含有每一个下一跳节点，完整的报文在一个个节点间传送（数据不拆分）（早期电报）</li>
+<li><strong>分组交换</strong>：将数据拆分成很小的分组进行传送，包括：<strong>数据报和虚电路</strong>（互联网）
+<ul>
+<li><strong>数据报</strong>：每个分组被独立处理，每个节点根据路由选择算法，被独立送到目的，路径和到达目的顺序都可能不一样（IP）<strong>多条路 乱序</strong></li>
+<li><strong>虚电路</strong>：在数据传送之前，先建立起一条逻辑上的连接，每个分组都沿着一条路径传输，不会乱序（X.25、FR 即帧中继、ATM）<strong>一条路 不乱序</strong></li>
+</ul>
+</li>
+<li><strong>分组交换优势</strong>：减小延迟，提高吞吐量；可以按<strong>分组纠错</strong>，通信效率提高</li>
+</ul>
+<h4 id="习题-7">习题</h4>
+<h3 id="数字传输系统E1-T1">数字传输系统E1/T1</h3>
+<ul>
+<li>多路复用技术：<strong>把多个低速的信道组合成一个高速的信道的技术</strong>
+<ul>
+<li>多路复用器（Mutiplexer），在发送端根据某种约定的规则把多个低带宽的信号复合成一个一个高带宽的信号</li>
+<li>多路分配器（Demultiplexer），在接收端根据统一规则把高带宽信号分解成多个低带宽信号</li>
+<li>统称多路器（MUX），运营商端复用设备（OLT），家庭（ONU光猫）</li>
+</ul>
+</li>
+<li><strong>频分复用</strong>：无线电广播、ADSL、FDD-LTE</li>
+<li><strong>时分复用</strong>：T1/E1、SONET/SDH、Wi-Fi、TDD-LTE</li>
+<li><strong>波分复用</strong>：<strong>本质也是频分复用</strong> 光速 = 波长 * 频率</li>
+</ul>
+<h4 id="E1-T1">E1/T1</h4>
+<h4 id="同步数字序列（SDH）-SONET-基于时分复用（早期语音技术）">同步数字序列（SDH） SONET 基于时分复用（早期语音技术）</h4>
+<h3 id="海明码纠错码">海明码纠错码</h3>
+<h4 id="差错控制">差错控制</h4>
+<p>原理：<strong>传输k位，加入r位冗余（某种算法定义），接收方收到进行计算比较</strong></p>
+<ul>
+<li>
+<p>检错：发送方重传</p>
+</li>
+<li>
+<p>纠错：知道错误</p>
+</li>
+</ul>
+<h4 id="奇偶校验">奇偶校验</h4>
+<ul>
+<li>最常用的检错方法，能检出一位错位</li>
+<li>原理：在7位ASCII码后增加一位，使码字中1的个数成奇数（奇校验）或偶数（偶校验）</li>
+</ul>
+<h4 id="海明码">海明码</h4>
+<ul>
+<li><strong>海明距离（码距）：两个码字之间不同的比特数</strong></li>
+<li>原理：在数据中间加入几个校验码，码距均匀拉大，当某一位出错，会引起几个几个校验位的值发生变化</li>
+<li>海明不等式：校验码个数为k，可以表示<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">2^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span>个信息，1个信息用来表示”没有错误“，其余<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^k-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9324em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>个表示数据中存在错误，如果满足<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn><mo>&gt;</mo><mo>=</mo><mi>m</mi><mo>+</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">2^k-1&gt;=m+k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9324em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6835em;vertical-align:-0.0391em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> (m为信息位，m+k为编码后的树总长度)，则在理论上k个校验码就可以判断是哪一位出了问题</li>
+</ul>
+<h4 id="海明码编码">海明码编码</h4>
+<h3 id="CRC循环冗余码">CRC循环冗余码</h3>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://c3ngh.top">C3ngH</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://c3ngh.top/2024/03/24/rkwg2/">http://c3ngh.top/2024/03/24/rkwg2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://c3ngh.top" target="_blank">C3ngH's B10g</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/">软考中级</a></div><div class="post_share"><div class="social-share" data-image="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/ReverseStart/" title="软件逆向工程基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">软件逆向工程基础</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/22/rkwg1/" title="计算机网络概论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络概论</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/05/25/rkwg3/" title="广域通信网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-25</div><div class="title">广域通信网</div></div></a></div><div><a href="/2024/03/22/rkwg1/" title="计算机网络概论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">计算机网络概论</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">C3ngH</div><div class="author-info__description">允许一切如其所是</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zch050217"><i class="fab fa-github"></i><span>关注作者</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/zch050217" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zch050217@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">信道特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">数据通信概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E5%B8%A6%E5%AE%BDW"><span class="toc-number">1.2.</span> <span class="toc-text">信道带宽W</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A0%81%E5%85%83%E5%92%8C%E7%A0%81%E5%85%83%E9%80%9F%E7%8E%87"><span class="toc-number">1.3.</span> <span class="toc-text">码元和码元速率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A5%88%E5%A5%8E%E6%96%AF%E7%89%B9%E5%AE%9A%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">奈奎斯特定理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%99%E5%86%9C%E5%AE%9A%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">香农定理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6%E5%AE%BD-%E7%A0%81%E5%85%83%E9%80%9F%E7%8E%87-%E6%95%B0%E6%8D%AE%E9%80%9F%E7%8E%87%E5%85%B3%E7%B3%BB%E6%A2%B3%E7%90%86"><span class="toc-number">1.6.</span> <span class="toc-text">带宽&#x2F;码元速率&#x2F;数据速率关系梳理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98"><span class="toc-number">1.7.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E5%BB%B6%E8%BF%9F"><span class="toc-number">2.</span> <span class="toc-text">信道延迟</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98-2"><span class="toc-number">2.1.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E4%BB%8B%E8%B4%A8"><span class="toc-number">3.</span> <span class="toc-text">传输介质</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E8%B4%A8%E5%88%86%E7%B1%BB"><span class="toc-number">3.1.</span> <span class="toc-text">介质分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%91%E8%B0%B1%E8%B5%84%E6%BA%90%E5%88%92%E5%88%86"><span class="toc-number">3.2.</span> <span class="toc-text">频谱资源划分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E7%BB%9E%E7%BA%BF%E5%8F%8A%E8%A7%84%E6%A0%BC"><span class="toc-number">3.3.</span> <span class="toc-text">双绞线及规格</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E7%BA%A4"><span class="toc-number">3.4.</span> <span class="toc-text">光纤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E7%BA%A4%E5%88%86%E7%B1%BB"><span class="toc-number">3.5.</span> <span class="toc-text">光纤分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%85%89%E6%A8%A1%E5%9D%97"><span class="toc-number">3.6.</span> <span class="toc-text">光接口和光模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E8%8A%AF%E5%85%89%E7%BA%A4%E4%B8%8E%E5%8D%95%E8%8A%AF%E5%85%89%E6%A8%A1%E5%9D%97"><span class="toc-number">3.7.</span> <span class="toc-text">单芯光纤与单芯光模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E7%BA%A4%E8%BF%9E%E6%8E%A5%E5%99%A8"><span class="toc-number">3.8.</span> <span class="toc-text">光纤连接器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E7%BA%BF%E5%92%8C%E5%B0%BE%E7%BA%A4"><span class="toc-number">3.9.</span> <span class="toc-text">跳线和尾纤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98-3"><span class="toc-number">3.10.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">数据编码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%BC%E5%BD%BB%E6%96%AF%E7%89%B9%E7%BC%96%E7%A0%81"><span class="toc-number">4.1.</span> <span class="toc-text">曼彻斯特编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%AE%E5%88%86%E6%9B%BC%E5%BD%BB%E6%96%AF%E7%89%B9%E7%BC%96%E7%A0%81"><span class="toc-number">4.2.</span> <span class="toc-text">差分曼彻斯特编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E6%9B%BC%E5%BD%BB%E6%96%AF%E7%89%B9%E7%BC%96%E7%A0%81%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">4.3.</span> <span class="toc-text">两种曼彻斯特编码的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%BC%96%E7%A0%81"><span class="toc-number">4.4.</span> <span class="toc-text">其他编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98-4"><span class="toc-number">4.5.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E5%88%B6%E6%8A%80%E6%9C%AF"><span class="toc-number">5.</span> <span class="toc-text">调制技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98-5"><span class="toc-number">5.1.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%89%E7%A0%81%E8%B0%83%E5%88%B6PCM%EF%BC%88%E9%AB%98%E9%A2%91%E8%80%83%E7%82%B9%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">脉码调制PCM（高频考点）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98-6"><span class="toc-number">6.1.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">通信和交换方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">7.1.</span> <span class="toc-text">数据通信方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%89%E9%80%9A%E4%BF%A1%E6%96%B9%E5%90%91%E5%88%86"><span class="toc-number">7.1.1.</span> <span class="toc-text">按通信方向分</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%89%E5%90%8C%E6%AD%A5%E6%96%B9%E5%BC%8F%E5%88%86"><span class="toc-number">7.1.2.</span> <span class="toc-text">按同步方式分</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">7.2.</span> <span class="toc-text">数据交换方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%A0%E9%A2%98-7"><span class="toc-number">7.3.</span> <span class="toc-text">习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E4%BC%A0%E8%BE%93%E7%B3%BB%E7%BB%9FE1-T1"><span class="toc-number">8.</span> <span class="toc-text">数字传输系统E1&#x2F;T1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#E1-T1"><span class="toc-number">8.1.</span> <span class="toc-text">E1&#x2F;T1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%95%B0%E5%AD%97%E5%BA%8F%E5%88%97%EF%BC%88SDH%EF%BC%89-SONET-%E5%9F%BA%E4%BA%8E%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88%E6%97%A9%E6%9C%9F%E8%AF%AD%E9%9F%B3%E6%8A%80%E6%9C%AF%EF%BC%89"><span class="toc-number">8.2.</span> <span class="toc-text">同步数字序列（SDH） SONET 基于时分复用（早期语音技术）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%B7%E6%98%8E%E7%A0%81%E7%BA%A0%E9%94%99%E7%A0%81"><span class="toc-number">9.</span> <span class="toc-text">海明码纠错码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%AE%E9%94%99%E6%8E%A7%E5%88%B6"><span class="toc-number">9.1.</span> <span class="toc-text">差错控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="toc-number">9.2.</span> <span class="toc-text">奇偶校验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%B7%E6%98%8E%E7%A0%81"><span class="toc-number">9.3.</span> <span class="toc-text">海明码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%B7%E6%98%8E%E7%A0%81%E7%BC%96%E7%A0%81"><span class="toc-number">9.4.</span> <span class="toc-text">海明码编码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRC%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E7%A0%81"><span class="toc-number">10.</span> <span class="toc-text">CRC循环冗余码</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/14/SomeWriteUp/" title="一些WriteUp">一些WriteUp</a><time datetime="2024-07-14T01:59:30.000Z" title="发表于 2024-07-14 09:59:30">2024-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/RCE/" title="RCE（重构版）">RCE（重构版）</a><time datetime="2024-05-25T03:03:50.000Z" title="发表于 2024-05-25 11:03:50">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/rkwg3/" title="广域通信网">广域通信网</a><time datetime="2024-05-25T03:00:15.000Z" title="发表于 2024-05-25 11:00:15">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/16/MiscLearn/" title="MiscLearn">MiscLearn</a><time datetime="2024-05-16T03:10:19.000Z" title="发表于 2024-05-16 11:10:19">2024-05-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/IDAuse/" title="IDA使用指南">IDA使用指南</a><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By C3ngH</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-waline-weld.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

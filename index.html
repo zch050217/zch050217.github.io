@@ -1,0 +1,417 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>C3ngH's B10g</title><meta name="author" content="C3ngH"><meta name="copyright" content="C3ngH"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="允许一切如其所是">
+<meta property="og:type" content="website">
+<meta property="og:title" content="C3ngH&#39;s B10g">
+<meta property="og:url" content="http://c3ngh.top/index.html">
+<meta property="og:site_name" content="C3ngH&#39;s B10g">
+<meta property="og:description" content="允许一切如其所是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg">
+<meta property="article:author" content="C3ngH">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg"><link rel="shortcut icon" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/favicon.ico"><link rel="canonical" href="http://c3ngh.top/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C3ngH\'s B10g',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-07-14 11:14:30'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/BGimg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="C3ngH's B10g"><span class="site-name">C3ngH's B10g</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">C3ngH's B10g</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/zch050217" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zch050217@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/07/14/SomeWriteUp/" title="一些WriteUp">一些WriteUp</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-07-14T01:59:30.000Z" title="发表于 2024-07-14 09:59:30">2024-07-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CTF/">CTF</a></span></div><div class="content">[NewStar2023]Begin Of PHP
+Level 1 MD5弱类型比较：
+123456789101112&lt;?phperror_reporting(0);highlight_file(__FILE__);if(isset($_GET[&#x27;key1&#x27;]) &amp;&amp; isset($_GET[&#x27;key2&#x27;]))&#123;    echo &quot;=Level 1=&lt;br&gt;&quot;;    if($_GET[&#x27;key1&#x27;] !== $_GET[&#x27;key2&#x27;] &amp;&amp; md5($_GET[&#x27;key1&#x27;]) == md5($_GET[&#x27;key2&#x27;]))&#123;        $flag1 = True;    &#125;else&#123;        die(&quot;nope,this is level 1&quot;);    &#125;&#125;
+根据PHP语言特性：==为弱类型比较，===为强 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/25/RCE/" title="RCE（重构版）">RCE（重构版）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-25T03:03:50.000Z" title="发表于 2024-05-25 11:03:50">2024-05-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CTF/">CTF</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Web/">Web</a></span></div><div class="content">绕过空格
+1$IFS` `$&#123;IFS&#125;` `$IFS$9` `%09` `&lt;、&gt;` `&lt;&gt;` `&#123;,&#125;
+以上符号均可对空格进行绕过，注：&lt;&gt;为重定向符
+举例：cat$IFS$9flag、{cat,flag}
+system函数替换
+passthru() ：执行命令并直接传递原始输出，适用于处理二进制数据
+exec()：执行命令并将输出捕获到数组中，适用于需要处理或操作输出的情况
+shell_exec()：执行命令并将整个输出作为字符串返回，适用于需要获取完整输出并进一步处理的情况
+popen()：打开一个进程管道，可以读写命令的输出或输入，适用于需要与进程交互的情况
+proc_open()：不仅可以执行命令，还能创建一个进程并提供对该进程的标准输入、标准输出和标准错误流的访问
+pcntl_exec()：一个底层函数，用于在当前进程空间中执行一个程序。这意味着调用 pcntl_exec() 后，当前 PHP 脚本会被替换为新执行的程序，不会返回到 PHP 脚本继续执行
+var_dump(``)：使用反引号/$()进 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/25/rkwg3/" title="广域通信网">广域通信网</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-25T03:00:15.000Z" title="发表于 2024-05-25 11:00:15">2024-05-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E5%B7%A5/">网工</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/">软考中级</a></span></div><div class="content">广域通信网物理层特性
+公共交换电话网 PSTN
+PSTN是为了语音通信而建立的网络，20世纪60年代开始用于数据传输
+电话网的3个组成部分：本地回路、干线、交换机
+通过调制解调器，发送端 数字信号 -&gt; 模拟信号，接收端 模拟信号 -&gt; 数字信号
+本地回路：
+
+DTE 数据终端设备，代币哎通信链路的端点（PC/电话机）
+DCE 数据电路设备，用于信号变换器，自动呼叫等（猫/调制解调器/Modem）
+
+机械特性：RS-232-C建议使用25帧的D型连接器，微型机串行接口上大多使用9针连接器
+电气特性：RS-232-C采用V.28标准电路，速率20KB/s，最长15m，信号源产生3-15V的信号，±3V是信号电平过渡区，3-15V代表1，-3-15V代表2
+流量与差错控制
+流量控制：X.25 TCP
+协调发送站和接收站工作步调，避免发送速度过快，接收站处理不过来
+停等协议：工作站发一帧，收到应答信号后再发送下一帧，接收站每收到一帧后回送一个应答信号（ACK），表示愿意接收下一帧，如果接收站不应答，发送站必须等待
+滑动窗口协议：允许连续发送多个帧而无需等待应答
+假设站A和B通过全 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/16/MiscLearn/" title="MiscLearn">MiscLearn</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-16T03:10:19.000Z" title="发表于 2024-05-16 11:10:19">2024-05-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CTF/">CTF</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Misc/">Misc</a></span></div><div class="content">
+奇怪的知识
+
+
+.vmdk文件可以被7z解压
+123BASHsudo apt install p7zip-full # 注意要安装full的，而不是仅仅p7zip7z x flag.vmdk -o./flag # 注意这里-o和输出路径之间没有空格的。解压到flag文件夹（不存在会自动创建）
+
+
+[HBNIS2018]低个头：看键盘字符 -&gt; 连起来得到flag
+
+
+word/excel等文件可以改后缀名zip/rar直接解压查看信息
+
+
+JPG
+
+拖进010 -&gt; 藏在末尾
+属性-详细信息-备注
+也可以在文件末尾隐写 lsb才是png专属
+两张图片的拼接处 -&gt; 010
+
+GIF
+
+分帧：https://tool.lu/gifsplitter/
+
+编码
+
+Base64解码可以直接导出png：https://the-x.cn/encodings
+二维码：https://cli.im/deqr/other
+Brainfuck：https://tool.bugku.com/brainfuck/
+与佛论禅（旧版）：https://ctf.bugku.com/tool/to ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/04/22/IDAuse/" title="IDA使用指南">IDA使用指南</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CTF/">CTF</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Reverse/">Reverse</a></span></div><div class="content">IDA Pro基本用法
+IDA Pro 通常会提供 ida.exe 与 ida64.exe 两个可执行程序，分别对应于逆向 32 位与 64 位程序。当我们需要使用 IDA Pro 分析某一可执行程序二进制文件时，我们需要根据程序指令集长度的不同选择使用不同的 ida 。
+最简单的使用方式是将待逆向的二进制可执行文件直接拖放到 IDA 上，IDA 会自动识别文件类型，这一步通常不需要做改动，直接点击 OK 即可
+
+接下来我们就会看到这样一个界面：
+
+
+Function Windows ：IDA 所识别出来的函数列表，通过该目录可以直接跳转到对应函数
+IDA-View ：以汇编形式呈现的由 IDA 进行反编译所得的单个函数结果，默认是以由基本块构成的控制流图的形式进行展示，也可以通过 空格 键切换到内存布局中的原始汇编代码
+Hex View ： 二进制文件的原始数据视图
+Structures ：由 IDA 所识别出来的程序中可能存在的结构体信息
+Enums ：由 IDA 所识别出来的程序中可能存在的枚举信息
+Imports ： 该二进制文件运行时可能需要从外部导入的符号
+Exports  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/04/22/ReverseStart/" title="软件逆向工程基础">软件逆向工程基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CTF/">CTF</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Reverse/">Reverse</a></span></div><div class="content">常规逆向流程
+
+使用strings/file/binwalk/IDA等静态分析工具收集信息，并根据这些静态信息进行google/github搜索
+研究程序的保护方法，如代码混淆，保护壳及反调试等技术，并设法破除或绕过保护
+反汇编目标软件，快速定位到关键代码进行分析
+结合动态调试，验证自己的初期猜想，在分析的过程中理清程序功能
+针对程序功能，写出对应脚本，求解出 flag
+
+代码混淆
+比如使用OLLVM，movfuscator，花指令，虚拟化及SMC等工具技术对代码进行混淆，使得程序分析十分困难。
+那么对应的也有反混淆技术，最主要的目的就是复原控制流。比如模拟执行和符号执行
+保护壳
+保护壳类型有许多，简单的压缩壳可以归类为如下几种
+
+
+unpack -&gt; execute
+直接将程序代码全部解压到内存中再继续执行程序代码
+
+
+unpack -&gt; execute -&gt; unpack -&gt; execute …
+解压部分代码，再边解压边执行
+
+
+unpack -&gt; [decoder | encoded code] -&gt; decode -&gt; execute ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/24/rkwg2/" title="数据通信基础">数据通信基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-24T14:11:05.000Z" title="发表于 2024-03-24 22:11:05">2024-03-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E5%B7%A5/">网工</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/">软考中级</a></span></div><div class="content">信道特性
+数据通信概念
+
+
+通信的目的是传递信息
+
+
+通信中产生和发生信息的一端叫信源，接受信息的一端叫信宿，信源和信宿之间的通信线路称为信道。
+
+
+
+模拟信号和数字信号
+
+
+
+信道带宽W
+
+模拟信道：W=f2−f1W=f_2-f_1W=f2​−f1​（f2f_2f2​和f1f_1f1​分别表示信道能通过的最高/最低频率，单位赫兹Hz）
+数字信道：数字信道是离散信道，带宽为信道能够达到的最大数据传输速率，单位是bit/s
+
+码元和码元速率
+
+码元：一个数字脉冲称为一个码元
+码元速率：单位时间内信道传送的码元个数。如果码元宽度（脉冲周期）为T，则码元速率（波特率）为B=1/TB=1/TB=1/T，单位是波特 Baud
+一个码元携带信息量n（位）与码元种类数（N）的关系n=log2Nn=log_2Nn=log2​N​
+
+奈奎斯特定理
+
+
+概念：在一个理想的（没有噪声环境）信道中，若信道带宽为W，最大码元速率为：B=2W(Baud)B=2W(Baud)B=2W(Baud)
+
+
+极限数据速率为：R=Blog2N=2Wlog2NR=Blog_2N=2Wlog_2NR=Blog2​N=2Wlog2 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/22/rkwg1/" title="计算机网络概论">计算机网络概论</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-22T14:11:05.000Z" title="发表于 2024-03-22 22:11:05">2024-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E5%B7%A5/">网工</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/">软考中级</a></span></div><div class="content">计算机网络发展与分类
+计算机网络形成与发展
+计算机网络：计算机技术与通信技术的结合。   ICT=IT+CT
+阶段一：早期网络
+
+阶段二：厂商独立发展阶段
+
+阶段三：标准化阶段
+
+计算机网络分类
+
+
+通信子网和资源子网
+
+
+通信子网：通信节点（集线器、交换机、路由器等）和通信链路（电话线、同轴电缆、无线电线路、卫星线路、微波中继线路和光纤缆线）
+
+
+用户资源子网：PC、服务器等
+
+
+
+
+
+网络拓扑结构
+
+
+
+LAN、MAN、WAN
+
+
+按照覆盖范围可以把网络分为个域网（PAN）、局域网（MAN）、城域网（MAN）、广域网（WAN）
+
+
+
+
+
+其他分类方式
+
+
+按照交换技术：电路交换网络、报文交换网络、分组交换网络
+
+
+
+按采用协议分类：IP网、IPX网等
+
+
+按传输介质分类：无线网和有线网，有线网可以分为双绞线网络、同轴电缆网络和光纤网络等
+
+
+按用途分类：教育网络、科研网络、商业网络及企业网络
+
+
+
+
+OSI和TCP/IP参考模型
+网络分层的原因
+
+
+模块化设计：网络分层使得网络设计变得模块化和可管理。每一层都专注于特定的功能，使得网络结构更清晰、更易于理解和维护。
+
+
+提高可靠性： ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/18/PHPunserialize/" title="PHP反序列化">PHP反序列化</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-18T01:41:57.000Z" title="发表于 2024-03-18 09:41:57">2024-03-18</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CTF/">CTF</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Web/">Web</a></span></div><div class="content">PHP反序列化的概念
+PHP反序列化漏洞是一种安全漏洞，存在于使用PHP编程语言的应用程序中。它涉及到将未经充分验证的用户提供的数据作为序列化字符串传递给unserialize()函数或类似的反序列化函数，从而导致潜在的安全风险。
+序列化是将数据结构或对象转换为字符串的过程，以便在网络上传输或存储到数据库等地方。反序列化则是将序列化的字符串转换回原始数据结构或对象。
+当应用程序使用反序列化函数处理来自用户的输入时，如果没有进行足够的验证和过滤，恶意用户可以构造恶意的序列化字符串，以执行未授权的操作，如执行任意代码、修改对象属性、实现拒绝服务攻击等。
+这种漏洞通常出现在应用程序中处理用户提供的会话数据、cookie、缓存、消息队列等地方。攻击者可以通过利用这些漏洞来实现对应用程序的攻击和控制。
+PHP反序列化漏洞的修复建议
+
+更新PHP版本：确保使用的PHP版本是最新的稳定版本，因为新版本通常会修复已知的安全漏洞。
+谨慎处理用户输入：对于从用户获取的数据，始终进行充分的验证和过滤。不要将未经验证的数据传递给反序列化函数。
+使用安全的反序列化方法：如果必须执行反序列化操作，尽量使用安全的反 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/07/VPNuse/" title="科学上网指北">科学上网指北</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-07T12:38:31.000Z" title="发表于 2024-03-07 20:38:31">2024-03-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%BC%80%E5%8F%91/">开发</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></span></div><div class="content">仅供学术讨论使用 造成任何后果自负
+代理软件
+Clash下载：Clash
+Surfboard下载：surfboard
+备用链接：
+Windows：Clash For Windows on C3ngH’s OSS
+macOS：ClashX on C3ngH’s OSS
+Linux：Clash Verge on C3ngH’s OSS
+Android：Clash For Android on C3ngH’s OSS
+iOS：Shadowrocket on the App Store (apple.com)
+注：iOS需美区ID，不提供安装包，仅提供App Store链接
+机场购买
+此处可使用现有机场或进行新购买，在此推广一元机场，每月一元，可满足日常使用。接下来步骤将以Clash For WIndows + 一元机场为例
+如果对机场要求较高（需流畅观看视频等）可选择星链，最低5元/月
+配置
+
+购买订阅后，在一元机场仪表盘中选择一键订阅，在展开框中选择复制订阅地址。
+
+
+
+下载并安装完成Clash后，选择左侧第三个Profiles，复制订阅地址后选择Download，点击出现的一元机场方框后 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">C3ngH</div><div class="author-info__description">允许一切如其所是</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zch050217"><i class="fab fa-github"></i><span>关注作者</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/zch050217" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zch050217@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/14/SomeWriteUp/" title="一些WriteUp">一些WriteUp</a><time datetime="2024-07-14T01:59:30.000Z" title="发表于 2024-07-14 09:59:30">2024-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/RCE/" title="RCE（重构版）">RCE（重构版）</a><time datetime="2024-05-25T03:03:50.000Z" title="发表于 2024-05-25 11:03:50">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/rkwg3/" title="广域通信网">广域通信网</a><time datetime="2024-05-25T03:00:15.000Z" title="发表于 2024-05-25 11:00:15">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/16/MiscLearn/" title="MiscLearn">MiscLearn</a><time datetime="2024-05-16T03:10:19.000Z" title="发表于 2024-05-16 11:10:19">2024-05-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/IDAuse/" title="IDA使用指南">IDA使用指南</a><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ACM/"><span class="card-category-list-name">ACM</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CTF/"><span class="card-category-list-name">CTF</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%BC%80%E5%8F%91/"><span class="card-category-list-name">开发</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E5%B7%A5/"><span class="card-category-list-name">网工</span><span class="card-category-list-count">3</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" style="font-size: 1.37em; color: #99a4b2">软考中级</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 1.1em; color: #999">开发</a> <a href="/tags/Crypto/" style="font-size: 1.1em; color: #999">Crypto</a> <a href="/tags/Reverse/" style="font-size: 1.23em; color: #999ea6">Reverse</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 1.37em; color: #99a4b2">环境配置</a> <a href="/tags/Web/" style="font-size: 1.5em; color: #99a9bf">Web</a> <a href="/tags/ACM/" style="font-size: 1.23em; color: #999ea6">ACM</a> <a href="/tags/Misc/" style="font-size: 1.1em; color: #999">Misc</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">二月 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">2</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">22</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-07-14T03:14:30.320Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By C3ngH</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: (str) => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: (subtitleType) => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        getScript('https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+</script><script>function subtitleType () {
+  getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
+    jinrishici.load(result =>{
+      if (true) {
+        const sub = []
+        const content = result.data.content
+        sub.unshift(content)
+        typedJSFn.init(sub)
+      } else {
+        document.getElementById('subtitle').textContent = result.data.content
+      }
+    })
+  })
+}
+typedJSFn.run(subtitleType)
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
