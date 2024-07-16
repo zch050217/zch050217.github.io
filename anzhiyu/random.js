@@ -1,3 +1,0 @@
-var posts=["2024/02/02/CrossSiteScripting/","2024/02/14/FileInclude/","2024/02/26/DataStructure/","2024/02/14/FileUpload/","2024/04/22/IDAuse/","2023/10/10/HexoBuild/","2024/03/18/PHPunserialize/","2023/10/04/RSAConcept/","2024/01/29/SQLinjection/","2024/05/16/MiscLearn/","2024/04/22/ReverseStart/","2024/03/02/ProgramTrainingCode/","2023/10/17/SomeWriteUp/","2024/05/25/RCE/","2024/01/10/WSL/","2024/03/07/VPNuse/","2024/02/14/XXEInjection/","2024/02/04/XSSWriteUp/","2024/03/22/rkwg1/","2024/07/15/newsql/","2024/05/25/rkwg3/","2024/03/24/rkwg2/","2023/11/21/zjnuojACcode/"];function toRandomPost(){
-    pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);
-  };
